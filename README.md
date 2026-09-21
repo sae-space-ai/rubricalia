@@ -26,6 +26,12 @@ Herramienta web diseñada para facilitar la creación de instrumentos de evaluac
 - ✅ **4 Niveles de Logro** (Inicial, En desarrollo, Adecuado, Consolidado)
 - ✅ Descriptores progresivos adaptados a cada curso
 - ✅ Sistema de puntuación matemático
+- ✅ **Exportación a Excel (XLSX)** con múltiples hojas:
+  - Portada con información general
+  - Tabla de rúbrica completa
+  - Sistema de puntuación con escala de calificación
+  - Observaciones pedagógicas
+  - Hoja de evaluación para rellenar
 - ✅ Exportación a PDF / Impresión
 - ✅ Notas pedagógicas por materia
 - ✅ Interfaz profesional en español
@@ -77,6 +83,7 @@ npm run preview
 - **React 19** — Biblioteca UI
 - **TypeScript 5** — Tipado estático
 - **Tailwind CSS 4** — Framework CSS utility-first
+- **SheetJS (xlsx)** — Generación de archivos Excel
 
 ## 📁 Estructura del proyecto
 
