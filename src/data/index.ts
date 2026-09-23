@@ -6,3 +6,5 @@ export * from './document-part2';
 export * from './document-part3';
 export * from './document-part4';
 export * from './materias';
+export * from './programaciones';
+export * from './programaciones';

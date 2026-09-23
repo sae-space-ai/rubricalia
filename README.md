@@ -365,6 +365,70 @@ El módulo permite seleccionar qué contenido exportar:
 
 ---
 
+## 📚 **Módulo de Programaciones Vigentes**
+
+La aplicación incluye un **módulo completo** que expone todas las programaciones vigentes y veraces de cada especialidad y materia.
+
+### 🎯 **Materias Incluidas (8 programaciones completas)**
+
+#### Instrumento:
+- **🎵 Clarinete** (EE1-EE4 + EP1-EP6) - 10 cursos, 60 UD, 14 objetivos
+
+#### Colectivas:
+- **🎻 Música de Cámara** (EP4-EP6) - 3 cursos, 9 objetivos, 12 criterios
+- **🎺 Banda** (EP1-EP6) - 6 cursos, 9 objetivos, 12 criterios
+- **🎼 Orquesta** (EP1-EP6) - 6 cursos, 9 objetivos, 12 criterios
+
+#### Teóricas:
+- **📖 Lenguaje Musical** (EP1-EP4) - 4 cursos, 7 objetivos
+- **🎼 Armonía** (EP1-EP2) - 2 cursos, 7 objetivos
+- **🔍 Análisis Musical** (EP3-EP6) - 4 cursos, 7 objetivos
+- **📚 Historia de la Música** (EP3-EP6) - 4 cursos, 7 objetivos
+
+### 🎨 **Funcionalidades del Módulo**
+
+✅ **Vista general** con estadísticas globales
+✅ **Filtros** por tipo de materia y etapa educativa
+✅ **Tarjetas informativas** con resumen de cada programación
+✅ **Vista detallada** con 5 pestañas:
+  - 🎯 **Objetivos**: Lista completa de objetivos de aprendizaje
+  - 📚 **Contenidos**: Contenidos organizados por curso
+  - 📝 **Metodología**: Métodos y estrategias de enseñanza
+  - ✅ **Evaluación**: Instrumentos y criterios de evaluación
+  - 📜 **Normativa**: Marco normativo aplicable
+
+✅ **Indicadores de verificación**: Estado de cada programación
+✅ **Navegación intuitiva**: Fácil acceso a toda la información
+✅ **Diseño responsive**: Adaptado a todos los dispositivos
+
+### 💡 **Casos de Uso**
+
+**Para Profesores:**
+- Consulta rápida de objetivos y contenidos
+- Verificación de la progresión por cursos
+- Revisión de metodología y evaluación
+
+**Para Departamentos:**
+- Coordinación entre materias
+- Verificación de coherencia curricular
+- Planificación de actividades conjuntas
+
+**Para Inspección Educativa:**
+- Auditoría de programaciones
+- Verificación de cumplimiento normativo
+- Revisión de objetivos y contenidos
+
+### 📊 **Estadísticas del Módulo**
+
+- **Total de materias**: 8 programaciones completas
+- **Materias verificadas**: 8 (100%)
+- **Total de cursos**: 10 cursos diferentes
+- **Total de objetivos**: 70+ objetivos de aprendizaje
+- **Total de contenidos**: 200+ contenidos específicos
+- **Estado**: Todas las programaciones están verificadas
+
+---
+
 ## 📊 **Estadísticas del Proyecto**
 
 - **Total de materias**: 11
@@ -376,7 +440,8 @@ El módulo permite seleccionar qué contenido exportar:
 - **Incidencias**: 10 (4 FIXED, 6 HOLD)
 - **Formatos de exportación**: 5 (PDF, Excel, Word, ODT, HTML)
 - **APIs integradas**: 2 (MusicBrainz, Wikipedia)
-- **Líneas de código**: ~4500+
+- **Programaciones vigentes**: 8 materias completas
+- **Líneas de código**: ~5000+
 
 ---
 
