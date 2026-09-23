@@ -32,6 +32,7 @@ import {
   MateriaTeoricaKey,
 } from './data';
 import ComposerInfo from './components/ComposerInfo';
+import ExportModule from './components/ExportModule';
 
 type Asignatura = 'clarinete' | AsignaturaColectiva;
 type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas' | 'documento';
@@ -245,6 +246,9 @@ export default function App() {
         {vista === 'incidencias' && <VistaIncidencias />}
         {vista === 'auditoria' && <VistaAuditoria />}
       </main>
+
+      {/* Módulo de Exportación */}
+      <ExportModule />
 
       <footer className="bg-slate-100 border-t border-slate-200 py-4 text-center text-xs text-slate-500 print:hidden">
         <p className="font-medium">V2.0 AUDITADA PARA DEPARTAMENTO</p>

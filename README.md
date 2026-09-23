@@ -232,6 +232,139 @@ npm run preview
 
 ---
 
+## 📥 **Módulo de Exportación**
+
+La aplicación incluye un **sistema completo de exportación** accesible desde el botón flotante "Exportar" en la esquina inferior derecha.
+
+### 📄 **Formatos Disponibles**
+
+#### 1. **PDF** 📄
+- Documento portable con estilos profesionales
+- Ideal para impresión y distribución
+- Incluye tablas formateadas y colores
+- Mantiene la estructura jerárquica del documento
+
+#### 2. **Excel (XLSX)** 📊
+- Múltiples hojas de cálculo:
+  - Hoja por cada apartado del documento
+  - Hoja de Unidades Didácticas
+  - Hoja de Rúbricas (si se selecciona)
+- Columnas con anchos optimizados
+- Datos estructurados para análisis
+
+#### 3. **Word (DOCX)** 📝
+- Documento editable de Microsoft Word
+- Estilos de títulos y subtítulos
+- Tablas formateadas
+- Compatible con todas las versiones de Word
+
+#### 4. **OpenDocument (ODT)** 📃
+- Formato abierto para LibreOffice/OpenOffice
+- Compatible con suites ofimáticas libres
+- Mantiene formato y estilos
+
+#### 5. **HTML** 🌐
+- Página web con estilos CSS integrados
+- Visualización en navegador
+- Fácil de compartir y publicar
+- Responsive y accesible
+
+### 🎯 **Opciones de Exportación**
+
+El módulo permite seleccionar qué contenido exportar:
+
+✅ **Documento Completo (30 Apartados)**
+- Identificación y Contextualización
+- Marco Normativo
+- Finalidades Educativas
+- Principios Pedagógicos
+- Competencias / Capacidades
+- Objetivos
+- Contenidos
+- Desarrollo de Contenidos
+- Metodología
+- Actividades
+- Unidades Didácticas
+- Secuenciación y Temporalización
+- Repertorio
+- Evaluación
+- Criterios de Evaluación
+- Instrumentos de Evaluación
+- Evidencias
+- Calificación
+- Recuperación y Refuerzo
+- Atención a la Diversidad
+- Recursos
+- Coordinación Docente
+- Actividades Complementarias
+- Evaluación de la Programación
+- Trazabilidad Curricular
+- Rúbricas
+- Anexos
+- Control de Calidad
+- Fuentes Normativas
+- Pendientes de Validación
+
+✅ **60 Unidades Didácticas**
+- Tabla completa con todas las UD
+- Código, título, curso, trimestre
+- Fase de progresión
+
+✅ **Rúbricas de Evaluación**
+- Selección de asignatura:
+  - 🎻 Música de Cámara
+  - 🎺 Banda
+  - 🎼 Orquesta
+- Rúbricas completas con 4 niveles
+- 12 criterios de evaluación
+
+### 🎨 **Interfaz del Módulo**
+
+- **Botón flotante** siempre visible en esquina inferior derecha
+- **Modal intuitivo** con selección de opciones
+- **Vista previa** del contenido a exportar
+- **Indicador de progreso** durante la exportación
+- **Diseño responsive** adaptado a móviles y tablets
+
+### 💡 **Ejemplos de Uso**
+
+#### Exportar Documento Completo en PDF
+1. Hacer clic en "Exportar"
+2. Seleccionar formato "PDF"
+3. Marcar "Documento Completo"
+4. Hacer clic en "Exportar"
+5. El archivo se descargará automáticamente
+
+#### Exportar Rúbricas en Excel
+1. Hacer clic en "Exportar"
+2. Seleccionar formato "Excel"
+3. Marcar "Rúbricas de Evaluación"
+4. Seleccionar asignatura (ej: Música de Cámara)
+5. Hacer clic en "Exportar"
+6. Se generará un archivo .xlsx con las rúbricas
+
+#### Exportar Todo en Word
+1. Hacer clic en "Exportar"
+2. Seleccionar formato "Word"
+3. Marcar todas las opciones
+4. Seleccionar asignatura para rúbricas
+5. Hacer clic en "Exportar"
+6. Se generará un documento .docx completo
+
+### 🔧 **Características Técnicas**
+
+- **Librerías utilizadas**:
+  - `xlsx` (SheetJS) para Excel
+  - `jspdf` + `jspdf-autotable` para PDF
+  - `docx` para Word
+  - `file-saver` para descargas
+- **Generación asíncrona** para no bloquear la interfaz
+- **Manejo de errores** con mensajes al usuario
+- **Optimización de memoria** para documentos grandes
+- **Compatible con todos los navegadores modernos**
+
+---
+
 ## 📊 **Estadísticas del Proyecto**
 
 - **Total de materias**: 11
@@ -241,8 +374,9 @@ npm run preview
 - **Rúbricas**: 12 criterios × múltiples cursos (Colectivas)
 - **Normativa verificada**: 10 normas
 - **Incidencias**: 10 (4 FIXED, 6 HOLD)
+- **Formatos de exportación**: 5 (PDF, Excel, Word, ODT, HTML)
 - **APIs integradas**: 2 (MusicBrainz, Wikipedia)
-- **Líneas de código**: ~3500+
+- **Líneas de código**: ~4500+
 
 ---
 
