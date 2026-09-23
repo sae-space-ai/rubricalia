@@ -34,9 +34,10 @@ import {
 import ComposerInfo from './components/ComposerInfo';
 import ExportModule from './components/ExportModule';
 import ProgramacionesModule from './components/ProgramacionesModule';
+import RubricasModule from './components/RubricasModule';
 
 type Asignatura = 'clarinete' | AsignaturaColectiva;
-type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas' | 'documento' | 'programaciones';
+type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas' | 'rubricas-completas' | 'documento' | 'programaciones';
 
 const CURSOS_CLARINETE: Curso[] = ['EE1', 'EE2', 'EE3', 'EE4', 'EP1', 'EP2', 'EP3', 'EP4', 'EP5', 'EP6'];
 const NOMBRE_CURSO_CLARINETE: Record<Curso, string> = {
@@ -186,6 +187,7 @@ export default function App() {
               { id: 'inicio' as Vista, label: 'Inicio' },
               { id: 'documento' as Vista, label: 'Documento' },
               { id: 'programaciones' as Vista, label: 'Programaciones' },
+              { id: 'rubricas-completas' as Vista, label: 'Rúbricas' },
               ...(asignatura === 'clarinete' ? [
                 { id: 'unidades' as Vista, label: '60 UD' },
                 { id: 'matriz' as Vista, label: 'Progresión' },
@@ -245,6 +247,7 @@ export default function App() {
         )}
         {vista === 'documento' && <VistaDocumento />}
         {vista === 'programaciones' && <ProgramacionesModule />}
+        {vista === 'rubricas-completas' && <RubricasModule />}
         {vista === 'normativa' && <VistaNormativa />}
         {vista === 'incidencias' && <VistaIncidencias />}
         {vista === 'auditoria' && <VistaAuditoria />}

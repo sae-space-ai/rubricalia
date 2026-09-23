@@ -429,19 +429,109 @@ La aplicación incluye un **módulo completo** que expone todas las programacion
 
 ---
 
+## 📊 **Módulo de Rúbricas**
+
+La aplicación incluye un **módulo completo y centralizado** para todas las rúbricas de evaluación.
+
+### 🎯 **Rúbricas Incluidas (203 rúbricas totales)**
+
+#### Rúbricas Técnicas (19 rúbricas):
+- **Técnica general** (R-26.4)
+- **Postura** (R-26.5)
+- **Respiración** (R-26.6)
+- **Embocadura** (R-26.7)
+- **Emisión** (R-26.8)
+- **Sonido** (R-26.9)
+- **Afinación** (R-26.10)
+- **Articulación** (R-26.11)
+- **Digitación** (R-26.12)
+- **Escalas** (R-26.13)
+- **Lectura** (R-26.14)
+- **Primera vista** (R-26.15)
+- **Estudios** (R-26.16)
+- **Repertorio** (R-26.17)
+- **Fraseo** (R-26.18)
+- **Expresión** (R-26.19)
+- **Memoria** (R-26.20)
+- **Autonomía** (R-26.21)
+- **Interpretación pública** (R-26.22)
+
+#### Rúbricas de Asignaturas Colectivas (184 rúbricas):
+- **🎻 Música de Cámara**: 36 rúbricas (12 criterios × 3 cursos)
+- **🎺 Banda**: 72 rúbricas (12 criterios × 6 cursos)
+- **🎼 Orquesta**: 72 rúbricas (12 criterios × 6 cursos)
+
+### 🎨 **Funcionalidades del Módulo**
+
+✅ **Dos vistas principales**:
+  - 🎯 Rúbricas Técnicas (con filtros por categoría)
+  - 🎼 Rúbricas por Asignatura (tabla comparativa)
+
+✅ **Sistema de 4 niveles de logro**:
+  - 🔴 **Nivel 1: Inicial** (Insuficiente 1-4)
+  - 🟡 **Nivel 2: En desarrollo** (Suficiente 5-6)
+  - 🔵 **Nivel 3: Adecuado** (Notable 7-8)
+  - 🟢 **Nivel 4: Consolidado** (Sobresaliente 9-10)
+
+✅ **Filtros avanzados**:
+  - Por categoría (Técnica, Musical, Interpretativa, Autonomía)
+  - Por asignatura (Cámara, Banda, Orquesta)
+  - Por curso
+
+✅ **Vista expandible**:
+  - Descriptores completos para cada nivel
+  - Diseño visual con colores intuitivos
+  - Información detallada de cada criterio
+
+✅ **Estadísticas en tiempo real**:
+  - Total de rúbricas
+  - Distribución por tipo
+  - Número de criterios y cursos
+
+### 💡 **Casos de Uso**
+
+**Para Profesores:**
+- Consulta rápida de criterios de evaluación
+- Verificación de descriptores por nivel
+- Planificación de evaluación
+- Comunicación de expectativas a estudiantes
+
+**Para Departamentos:**
+- Coordinación de criterios entre asignaturas
+- Homogeneización de evaluación
+- Revisión de progresión por cursos
+- Auditoría de rúbricas
+
+**Para Inspección Educativa:**
+- Verificación de criterios de evaluación
+- Revisión de descriptores observables
+- Auditoría de sistema de calificación
+- Evaluación de coherencia curricular
+
+### 📊 **Características Técnicas**
+
+- **Descriptores observables**: Todos los descriptores describen comportamientos observables
+- **Progresión clara**: Los 4 niveles muestran progresión evidente
+- **Sin ambigüedades**: Descriptores precisos y específicos
+- **Coherencia interna**: Los niveles son mutuamente excluyentes
+- **Trazabilidad**: Cada rúbrica vinculada a su base normativa
+- **Completitud**: Todas las rúbricas tienen los 4 niveles completos
+
+---
+
 ## 📊 **Estadísticas del Proyecto**
 
 - **Total de materias**: 11
 - **Total de apartados**: 30
 - **Total de subapartados**: 388
 - **Unidades didácticas**: 60 (Clarinete)
-- **Rúbricas**: 12 criterios × múltiples cursos (Colectivas)
+- **Rúbricas totales**: 203 (19 técnicas + 184 de asignaturas colectivas)
 - **Normativa verificada**: 10 normas
 - **Incidencias**: 10 (4 FIXED, 6 HOLD)
 - **Formatos de exportación**: 5 (PDF, Excel, Word, ODT, HTML)
 - **APIs integradas**: 2 (MusicBrainz, Wikipedia)
 - **Programaciones vigentes**: 8 materias completas
-- **Líneas de código**: ~5000+
+- **Líneas de código**: ~5500+
 
 ---
 

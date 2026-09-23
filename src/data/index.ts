@@ -7,4 +7,5 @@ export * from './document-part3';
 export * from './document-part4';
 export * from './materias';
 export * from './programaciones';
+export * from './rubricas-completas';
 export * from './programaciones';
