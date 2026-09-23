@@ -367,260 +367,99 @@ export default function App() {
 }
 
 // ============================================================
-// VISTA INICIO PRINCIPAL — UNIFICADA
+// VISTA INICIO PRINCIPAL — DISEÑO LIMPIO Y CENTRADO
 // ============================================================
 function VistaInicioPrincipal({ onNavigate }: { onNavigate: (v: Vista) => void }) {
   return (
-    <div className="space-y-6">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl p-8 text-white">
-        <div className="flex items-start justify-between flex-wrap gap-4">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-5xl">🎼</span>
-              <div>
-                <h2 className="text-3xl font-bold">Bienvenido a Rubricalia</h2>
-                <p className="text-purple-100 text-sm mt-1">Herramienta Integral de Programación Didáctica de Música</p>
-              </div>
-            </div>
-            <p className="text-purple-100 mb-6 max-w-2xl">
-              Plataforma completa para la gestión de programaciones didácticas de Enseñanzas Elementales y Profesionales de Música en Extremadura. 
-              Accede a rúbricas, programaciones, unidades didácticas, normativa y todos los recursos necesarios para tu labor docente.
-            </p>
-            <div className="flex gap-3 flex-wrap">
-              <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg text-sm font-semibold">✓ V2.0 Auditada</span>
-              <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg text-sm font-semibold">✓ 203 Rúbricas</span>
-              <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg text-sm font-semibold">✓ 60 UD</span>
-              <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg text-sm font-semibold">✓ 11 Materias</span>
-            </div>
-          </div>
+    <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center px-4 py-12">
+      {/* Logo y Nombre */}
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl shadow-lg mb-4">
+          <span className="text-5xl">🎼</span>
+        </div>
+        <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-2">Rubricalia</h1>
+        <p className="text-lg text-slate-600">Enseñanzas Profesionales de Música — Extremadura</p>
+      </div>
+
+      {/* Título Principal */}
+      <div className="text-center mb-8 max-w-3xl">
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+          Programación Didáctica 2026/2027
+        </h2>
+        <p className="text-xl text-slate-700 mb-6">
+          Herramienta Integral de Evaluación y Programación
+        </p>
+        <p className="text-base text-slate-600 leading-relaxed mb-8">
+          Plataforma profesional para la gestión completa de programaciones didácticas, rúbricas de evaluación, 
+          unidades didácticas y normativa para las Enseñanzas Elementales y Profesionales de Música en Extremadura.
+        </p>
+      </div>
+
+      {/* Botones de Acción Principales */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-12">
+        <button
+          onClick={() => onNavigate('programaciones')}
+          className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
+        >
+          <span>📚</span>
+          Ver Programaciones
+        </button>
+        <button
+          onClick={() => onNavigate('rubricas-completas')}
+          className="inline-flex items-center gap-2 bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200"
+        >
+          <span>📊</span>
+          Ver Rúbricas
+        </button>
+      </div>
+
+      {/* Estadísticas Destacadas */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl w-full mb-12">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
+          <div className="text-3xl font-bold text-indigo-600 mb-1">203</div>
+          <div className="text-sm text-slate-600">Rúbricas</div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
+          <div className="text-3xl font-bold text-purple-600 mb-1">60</div>
+          <div className="text-sm text-slate-600">Unidades Didácticas</div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
+          <div className="text-3xl font-bold text-pink-600 mb-1">11</div>
+          <div className="text-sm text-slate-600">Materias</div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
+          <div className="text-3xl font-bold text-green-600 mb-1">30</div>
+          <div className="text-sm text-slate-600">Apartados</div>
         </div>
       </div>
 
-      {/* Estadísticas Principales */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Unidades Didácticas" value="60" color="blue" />
-        <StatCard label="Rúbricas Totales" value="203" color="purple" />
-        <StatCard label="Materias" value="11" color="indigo" />
-        <StatCard label="Normativa Verificada" value={String(NORMATIVA_BASE.filter(n => n.estado === 'VERIFIED').length)} color="green" />
-      </div>
-
-      {/* ÍNDICE DE MÓDULOS PRINCIPALES */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-          <span className="text-2xl">📑</span> Índice de Módulos
-        </h3>
-        
-        {/* Módulos Destacados */}
-        <div className="grid md:grid-cols-2 gap-4 mb-6">
-          <button
-            onClick={() => onNavigate('programaciones')}
-            className="group bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-5 text-left hover:shadow-lg hover:border-blue-400 transition-all"
-          >
-            <div className="flex items-start justify-between mb-3">
-              <span className="text-4xl">📚</span>
-              <span className="px-2 py-1 bg-blue-600 text-white text-xs font-bold rounded-full">PRINCIPAL</span>
-            </div>
-            <h4 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-700 transition-colors">
-              Programaciones Vigentes
-            </h4>
-            <p className="text-sm text-slate-600 mb-3">
-              Accede a las 8 programaciones completas y verificadas de todas las materias
-            </p>
-            <div className="flex flex-wrap gap-2 mb-3">
-              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">8 Materias</span>
-              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">100% Verificadas</span>
-              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">Trazabilidad Completa</span>
-            </div>
-            <div className="text-xs text-slate-500 space-y-1">
-              <p>✓ Clarinete (60 UD completas)</p>
-              <p>✓ Lenguaje Musical, Armonía, Análisis, Historia</p>
-              <p>✓ Música de Cámara, Banda, Orquesta</p>
-            </div>
-            <div className="mt-3 text-blue-600 font-semibold text-sm group-hover:text-blue-800">
-              Acceder al módulo →
-            </div>
-          </button>
-
-          <button
-            onClick={() => onNavigate('rubricas-completas')}
-            className="group bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl p-5 text-left hover:shadow-lg hover:border-purple-400 transition-all"
-          >
-            <div className="flex items-start justify-between mb-3">
-              <span className="text-4xl">📊</span>
-              <span className="px-2 py-1 bg-purple-600 text-white text-xs font-bold rounded-full">PRINCIPAL</span>
-            </div>
-            <h4 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-purple-700 transition-colors">
-              Sistema de Rúbricas
-            </h4>
-            <p className="text-sm text-slate-600 mb-3">
-              203 rúbricas completas con 4 niveles de logro para todas las asignaturas
-            </p>
-            <div className="flex flex-wrap gap-2 mb-3">
-              <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded">203 Rúbricas</span>
-              <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded">4 Niveles</span>
-              <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded">12 Criterios</span>
-            </div>
-            <div className="text-xs text-slate-500 space-y-1">
-              <p>✓ 19 Rúbricas Técnicas (documento maestro)</p>
-              <p>✓ 36 Rúbricas de Música de Cámara</p>
-              <p>✓ 72 Rúbricas de Banda + 72 de Orquesta</p>
-            </div>
-            <div className="mt-3 text-purple-600 font-semibold text-sm group-hover:text-purple-800">
-              Acceder al módulo →
-            </div>
-          </button>
+      {/* Características Principales */}
+      <div className="grid sm:grid-cols-3 gap-6 max-w-5xl w-full">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 text-center">
+          <div className="text-4xl mb-3">📚</div>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">Programaciones Completas</h3>
+          <p className="text-sm text-slate-600">
+            8 programaciones vigentes y verificadas con objetivos, contenidos, metodología y evaluación
+          </p>
         </div>
-
-        {/* Otros Módulos */}
-        <h4 className="text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wide">Otros Módulos Disponibles</h4>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-          <button
-            onClick={() => onNavigate('unidades')}
-            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">📋</span>
-              <h5 className="font-semibold text-slate-900">60 Unidades Didácticas</h5>
-            </div>
-            <p className="text-xs text-slate-600">Navega por las 60 UD de Clarinete con estructura completa</p>
-          </button>
-
-          <button
-            onClick={() => onNavigate('documento')}
-            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">📄</span>
-              <h5 className="font-semibold text-slate-900">Documento Completo</h5>
-            </div>
-            <p className="text-xs text-slate-600">Los 30 apartados de la programación didáctica</p>
-          </button>
-
-          <button
-            onClick={() => onNavigate('matriz')}
-            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">📈</span>
-              <h5 className="font-semibold text-slate-900">Matriz de Progresión</h5>
-            </div>
-            <p className="text-xs text-slate-600">Progresión vertical EE1→EP6</p>
-          </button>
-
-          <button
-            onClick={() => onNavigate('repertorio')}
-            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">🎵</span>
-              <h5 className="font-semibold text-slate-900">Repertorio</h5>
-            </div>
-            <p className="text-xs text-slate-600">Repertorio de referencia por curso</p>
-          </button>
-
-          <button
-            onClick={() => onNavigate('normativa')}
-            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">⚖️</span>
-              <h5 className="font-semibold text-slate-900">Normativa</h5>
-            </div>
-            <p className="text-xs text-slate-600">Marco normativo estatal y autonómico</p>
-          </button>
-
-          <button
-            onClick={() => onNavigate('incidencias')}
-            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">⚠️</span>
-              <h5 className="font-semibold text-slate-900">Incidencias</h5>
-            </div>
-            <p className="text-xs text-slate-600">Registro de incidencias y HOLD</p>
-          </button>
-
-          <button
-            onClick={() => onNavigate('auditoria')}
-            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">✅</span>
-              <h5 className="font-semibold text-slate-900">Auditoría</h5>
-            </div>
-            <p className="text-xs text-slate-600">Informe de auditoría final</p>
-          </button>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 text-center">
+          <div className="text-4xl mb-3">📊</div>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">Sistema de Rúbricas</h3>
+          <p className="text-sm text-slate-600">
+            203 rúbricas con 4 niveles de logro para evaluación objetiva y trazable
+          </p>
         </div>
-      </div>
-
-      {/* Calendario */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <h3 className="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
-          <span className="text-2xl">📅</span> Calendario Académico 2026/2027
-        </h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-            <p className="text-xs text-blue-600 font-semibold mb-1">Inicio de Actividades</p>
-            <p className="text-blue-900 font-bold">{CALENDARIO.inicioActividades}</p>
-          </div>
-          <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-            <p className="text-xs text-green-600 font-semibold mb-1">Final Ordinario</p>
-            <p className="text-green-900 font-bold">{CALENDARIO.finalOrdinario}</p>
-          </div>
-          <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
-            <p className="text-xs text-purple-600 font-semibold mb-1">Final 6.º EP</p>
-            <p className="text-purple-900 font-bold">{CALENDARIO.finalEP6}</p>
-          </div>
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-            <p className="text-xs text-amber-600 font-semibold mb-1">Calificaciones Ordinarias</p>
-            <p className="text-amber-900 font-bold">{CALENDARIO.calificacionesOrdinarias}</p>
-          </div>
-          <div className="bg-rose-50 border border-rose-200 rounded-lg p-3">
-            <p className="text-xs text-rose-600 font-semibold mb-1">Calificaciones 6.º EP</p>
-            <p className="text-rose-900 font-bold">{CALENDARIO.calificacionesEP6}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Objetivos Oficiales */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
-            <span className="text-xl">🎯</span> Objetivos Oficiales EE — Aplicables al Clarinete
-          </h3>
-          <div className="space-y-2">
-            {OBJETIVOS_OFICIALES_EE.filter(o => o.aplicaClarinete).map(o => (
-              <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
-                <span className="font-bold">{o.codigo}:</span> {o.texto}
-              </div>
-            ))}
-          </div>
-          <div className="mt-3 p-2 bg-amber-50 border border-amber-200 rounded text-[10px] text-amber-800">
-            <span className="font-bold">⚠️ Nota de trazabilidad:</span> EE-O6 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
-          </div>
-        </div>
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
-            <span className="text-xl">🎯</span> Objetivos Oficiales EP — Aplicables al Clarinete
-          </h3>
-          <div className="space-y-2">
-            {OBJETIVOS_OFICIALES_EP.filter(o => o.aplicaClarinete).map(o => (
-              <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
-                <span className="font-bold">{o.codigo}:</span> {o.texto}
-              </div>
-            ))}
-          </div>
-          <div className="mt-3 p-2 bg-amber-50 border border-amber-200 rounded text-[10px] text-amber-800">
-            <span className="font-bold">⚠️ Nota de trazabilidad:</span> EP-O3 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
-          </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 text-center">
+          <div className="text-4xl mb-3">📄</div>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">Documento Completo</h3>
+          <p className="text-sm text-slate-600">
+            30 apartados con normativa, objetivos, contenidos y auditoría completa
+          </p>
         </div>
       </div>
     </div>
   );
 }
-
-
 
 // ============================================================
 // COMPONENTE DE BÚSQUEDA CON APIs
