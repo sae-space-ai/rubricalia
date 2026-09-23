@@ -241,7 +241,46 @@ npm run preview
 - **Rúbricas**: 12 criterios × múltiples cursos (Colectivas)
 - **Normativa verificada**: 10 normas
 - **Incidencias**: 10 (4 FIXED, 6 HOLD)
-- **Líneas de código**: ~3000+
+- **APIs integradas**: 2 (MusicBrainz, Wikipedia)
+- **Líneas de código**: ~3500+
+
+---
+
+## 🌐 **APIs Gratuitas Integradas**
+
+### 🎵 **MusicBrainz API**
+- **Propósito**: Base de datos abierta de música
+- **Uso**: Búsqueda de compositores, obras y detalles musicales
+- **Endpoint**: `https://musicbrainz.org/ws/2/`
+- **Características**:
+  - Búsqueda de compositores por nombre
+  - Información de obras y fechas
+  - Datos biográficos
+  - Sin límite de uso razonable
+
+### 📚 **Wikipedia API**
+- **Propósito**: Enciclopedia libre
+- **Uso**: Contexto histórico y biografías de compositores
+- **Endpoint**: `https://es.wikipedia.org/api/rest_v1/`
+- **Características**:
+  - Biografías de compositores
+  - Contexto histórico de obras
+  - Información de períodos musicales
+  - Acceso gratuito y sin autenticación
+
+### 🔍 **Funcionalidades de Búsqueda**
+
+La aplicación incluye un sistema de búsqueda integrado que permite:
+
+1. **Buscar compositores**: Información biográfica completa
+2. **Explorar obras**: Catálogo de composiciones
+3. **Contexto histórico**: Períodos y movimientos musicales
+4. **Enlaces externos**: Acceso directo a Wikipedia
+
+**Ejemplo de uso**:
+- Buscar "Mozart" → Biografía completa, obras, período clásico
+- Buscar "Beethoven" → Transición Clasicismo-Romanticismo
+- Buscar "Debussy" → Impresionismo musical
 
 ---
 

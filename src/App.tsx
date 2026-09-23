@@ -28,7 +28,10 @@ import {
   DOCUMENTO_COMPLETO_3_30,
   DOCUMENTO_RESTO,
   DOCUMENTO_FINAL,
+  MATERIAS_TEORICAS,
+  MateriaTeoricaKey,
 } from './data';
+import ComposerInfo from './components/ComposerInfo';
 
 type Asignatura = 'clarinete' | AsignaturaColectiva;
 type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas' | 'documento';
@@ -415,6 +418,183 @@ function VistaInicioColectiva({ asignatura, onNavigate }: { asignatura: Asignatu
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Contenido específico de materias teóricas */}
+      {(asignatura === 'lenguaje' || asignatura === 'armonia' || asignatura === 'analisis' || asignatura === 'historia') && (
+        <MateriaTeoricaContent asignatura={asignatura} />
+      )}
+
+      {/* Búsqueda con APIs para materias con compositores */}
+      {(asignatura === 'historia' || asignatura === 'analisis' || asignatura === 'camara' || asignatura === 'banda' || asignatura === 'orquesta') && (
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <h3 className="font-bold text-slate-800 mb-3 text-sm">🔍 Búsqueda de Compositores (APIs Musicales)</h3>
+          <ComposerSearch />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ============================================================
+// COMPONENTE DE BÚSQUEDA CON APIs
+// ============================================================
+function ComposerSearch() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async () => {
+    if (!query.trim()) return;
+    setLoading(true);
+    
+    try {
+      const response = await fetch(
+        `https://musicbrainz.org/ws/2/artist?query=${encodeURIComponent(query)}&fmt=json&limit=5`
+      );
+      const data = await response.json();
+      setResults(data.artists || []);
+    } catch (error) {
+      console.error('Error buscando:', error);
+    }
+    
+    setLoading(false);
+  };
+
+  return (
+    <div className="space-y-3">
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Nombre del compositor (ej: Mozart, Beethoven...)"
+          className="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+        />
+        <button
+          onClick={handleSearch}
+          disabled={loading}
+          className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        >
+          {loading ? 'Buscando...' : 'Buscar'}
+        </button>
+      </div>
+      
+      {results.length > 0 && (
+        <div className="space-y-2">
+          {results.map((artist, i) => (
+            <div key={i} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-800">{artist.name}</h4>
+                  {artist['life-span'] && (
+                    <p className="text-xs text-slate-600">
+                      {artist['life-span'].begin || '?'} - {artist['life-span'].end || 'presente'}
+                    </p>
+                  )}
+                  {artist.country && (
+                    <p className="text-xs text-slate-500">{artist.country}</p>
+                  )}
+                </div>
+                <span className="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full">
+                  MusicBrainz
+                </span>
+              </div>
+              {artist.disambiguation && (
+                <p className="text-xs text-slate-600 mt-1">{artist.disambiguation}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      
+      <div className="text-[10px] text-slate-500 pt-2 border-t border-slate-200">
+        Datos obtenidos de MusicBrainz API (gratuita)
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// COMPONENTE DE CONTENIDO DE MATERIAS TEÓRICAS
+// ============================================================
+function MateriaTeoricaContent({ asignatura }: { asignatura: AsignaturaColectiva }) {
+  const materia = MATERIAS_TEORICAS[asignatura as MateriaTeoricaKey];
+  
+  if (!materia) return null;
+  
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+      <h3 className="font-bold text-slate-800 mb-3 text-sm">📚 Contenido Programático Completo</h3>
+      
+      <div className="mb-4">
+        <h4 className="font-semibold text-slate-700 text-xs mb-2">Objetivos</h4>
+        <ul className="space-y-1">
+          {materia.objetivos.map((obj, i) => (
+            <li key={i} className="text-xs text-slate-700 flex items-start gap-2">
+              <span className="text-blue-600 font-bold">{i + 1}.</span>
+              {obj}
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <div className="mb-4">
+        <h4 className="font-semibold text-slate-700 text-xs mb-2">Contenidos por Curso</h4>
+        <div className="space-y-3">
+          {Object.entries(materia.contenidosPorCurso).map(([curso, data]) => (
+            <div key={curso} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+              <h5 className="text-xs font-bold text-slate-800 mb-1">
+                {curso}.º Curso: {data.titulo}
+              </h5>
+              <ul className="space-y-0.5">
+                {data.contenidos.map((contenido, i) => (
+                  <li key={i} className="text-xs text-slate-700">
+                    • {contenido}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <h4 className="font-semibold text-slate-700 text-xs mb-2">Metodología</h4>
+          <ul className="space-y-1">
+            {materia.metodologia.map((met, i) => (
+              <li key={i} className="text-xs text-slate-700">
+                • {met}
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        <div>
+          <h4 className="font-semibold text-slate-700 text-xs mb-2">Evaluación</h4>
+          <div className="mb-2">
+            <p className="text-xs font-medium text-slate-700 mb-1">Instrumentos:</p>
+            <ul className="space-y-0.5">
+              {materia.evaluacion.instrumentos.map((inst, i) => (
+                <li key={i} className="text-xs text-slate-700">
+                  • {inst}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs font-medium text-slate-700 mb-1">Criterios:</p>
+            <ul className="space-y-0.5">
+              {materia.evaluacion.criterios.map((crit, i) => (
+                <li key={i} className="text-xs text-slate-700">
+                  • {crit}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
