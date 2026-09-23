@@ -24,10 +24,20 @@ import {
   ASIGNATURA_INFO,
   getRubricasByAsignatura,
   getCursosDisponibles,
+  DOCUMENTO_COMPLETO,
+  DOCUMENTO_COMPLETO_3_30,
+  DOCUMENTO_RESTO,
+  DOCUMENTO_FINAL,
+  MATERIAS_TEORICAS,
+  MateriaTeoricaKey,
 } from './data';
+import ComposerInfo from './components/ComposerInfo';
+import ExportModule from './components/ExportModule';
+import ProgramacionesModule from './components/ProgramacionesModule';
+import RubricasModule from './components/RubricasModule';
 
 type Asignatura = 'clarinete' | AsignaturaColectiva;
-type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas';
+type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas' | 'rubricas-completas' | 'documento' | 'programaciones';
 
 const CURSOS_CLARINETE: Curso[] = ['EE1', 'EE2', 'EE3', 'EE4', 'EP1', 'EP2', 'EP3', 'EP4', 'EP5', 'EP6'];
 const NOMBRE_CURSO_CLARINETE: Record<Curso, string> = {
@@ -70,14 +80,22 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       {/* HEADER */}
-      <header className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 text-white shadow-xl print:shadow-none print:bg-white print:text-black sticky top-0 z-50">
+      <header className="bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 text-white shadow-xl print:shadow-none print:bg-white print:text-black sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <div>
-              <h1 className="text-base sm:text-lg font-bold tracking-tight">PROGRAMACIÓN DIDÁCTICA 2026/2027</h1>
-              <p className="text-[10px] sm:text-xs text-blue-200 print:text-gray-600">
-                Enseñanzas Profesionales de Música — Extremadura · V2.0 Auditada · Prof. Manuel Gago Fernández
-              </p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                <span className="text-2xl">🎼</span>
+              </div>
+              <div>
+                <h1 className="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
+                  Rubricalia
+                  <span className="text-[10px] bg-green-500 text-white px-2 py-0.5 rounded-full font-normal">V2.0</span>
+                </h1>
+                <p className="text-[10px] sm:text-xs text-purple-200 print:text-gray-600">
+                  Programación Didáctica de Música 2026/2027 · Extremadura · Prof. Manuel Gago Fernández
+                </p>
+              </div>
             </div>
           </div>
           {/* Selector de Asignatura */}
@@ -171,40 +189,104 @@ export default function App() {
               🎼 Orquesta
             </button>
           </div>
-          {/* Navigation */}
-          <nav className="flex gap-1 mt-2 flex-wrap print:hidden">
-            {[
-              { id: 'inicio' as Vista, label: 'Inicio' },
-              ...(asignatura === 'clarinete' ? [
-                { id: 'unidades' as Vista, label: '60 UD' },
-                { id: 'matriz' as Vista, label: 'Progresión' },
-                { id: 'repertorio' as Vista, label: 'Repertorio' },
-              ] : [
-                { id: 'rubricas' as Vista, label: 'Rúbricas' },
-              ]),
-              { id: 'normativa' as Vista, label: 'Normativa' },
-              { id: 'incidencias' as Vista, label: 'Incidencias' },
-              { id: 'auditoria' as Vista, label: 'Auditoría' },
-            ].map(item => (
-              <button
-                key={item.id}
-                onClick={() => setVista(item.id)}
-                className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
-                  vista === item.id ? 'bg-white/20 text-white' : 'text-blue-200 hover:bg-white/10'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+          {/* Navigation Principal */}
+          <nav className="flex gap-1 mt-3 flex-wrap print:hidden border-t border-white/10 pt-3">
+            <button
+              onClick={() => setVista('inicio')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'inicio' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🏠 Inicio
+            </button>
+            <button
+              onClick={() => setVista('programaciones')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'programaciones' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              📚 Programaciones
+            </button>
+            <button
+              onClick={() => setVista('rubricas-completas')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'rubricas-completas' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              📊 Rúbricas
+            </button>
+            <button
+              onClick={() => setVista('documento')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'documento' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              📄 Documento
+            </button>
+            {asignatura === 'clarinete' && (
+              <>
+                <button
+                  onClick={() => setVista('unidades')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    vista === 'unidades' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  📋 60 UD
+                </button>
+                <button
+                  onClick={() => setVista('matriz')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    vista === 'matriz' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  📈 Progresión
+                </button>
+                <button
+                  onClick={() => setVista('repertorio')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    vista === 'repertorio' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  🎵 Repertorio
+                </button>
+              </>
+            )}
+            <button
+              onClick={() => setVista('normativa')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'normativa' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              ⚖️ Normativa
+            </button>
+            <button
+              onClick={() => setVista('incidencias')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'incidencias' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              ⚠️ Incidencias
+            </button>
+            <button
+              onClick={() => setVista('auditoria')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'auditoria' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              ✅ Auditoría
+            </button>
           </nav>
         </div>
       </header>
 
       {/* MAIN */}
       <main className="flex-1 max-w-7xl mx-auto px-4 py-6 w-full">
+        {/* Vista de Inicio Unificada */}
+        {vista === 'inicio' && <VistaInicioPrincipal onNavigate={setVista} />}
+        
+        {/* Vistas específicas de Clarinete */}
         {asignatura === 'clarinete' && (
           <>
-            {vista === 'inicio' && <VistaInicio onNavigate={setVista} />}
             {vista === 'unidades' && (
               <VistaUnidades
                 udFiltradas={udFiltradas}
@@ -220,97 +302,159 @@ export default function App() {
             {vista === 'repertorio' && <VistaRepertorio />}
           </>
         )}
-        {asignatura !== 'clarinete' && (
-          <>
-            {vista === 'inicio' && <VistaInicioColectiva asignatura={asignatura} onNavigate={setVista} />}
-            {vista === 'rubricas' && (
-              <VistaRubricas
-                asignatura={asignatura}
-                cursoFiltro={cursoColectivoFiltro}
-                setCursoFiltro={setCursoColectivoFiltro}
-              />
-            )}
-          </>
+        
+        {/* Vistas específicas de otras asignaturas */}
+        {asignatura !== 'clarinete' && vista === 'rubricas' && (
+          <VistaRubricas
+            asignatura={asignatura}
+            cursoFiltro={cursoColectivoFiltro}
+            setCursoFiltro={setCursoColectivoFiltro}
+          />
         )}
+        
+        {/* Módulos globales */}
+        {vista === 'documento' && <VistaDocumento />}
+        {vista === 'programaciones' && <ProgramacionesModule />}
+        {vista === 'rubricas-completas' && <RubricasModule />}
         {vista === 'normativa' && <VistaNormativa />}
         {vista === 'incidencias' && <VistaIncidencias />}
         {vista === 'auditoria' && <VistaAuditoria />}
       </main>
 
-      <footer className="bg-slate-100 border-t border-slate-200 py-4 text-center text-xs text-slate-500 print:hidden">
-        <p className="font-medium">V2.0 AUDITADA PARA DEPARTAMENTO</p>
-        <p>Estado documental: AUDITADA / TRAZABLE / CON HOLD EXPLÍCITOS DONDE PROCEDA</p>
+      {/* Módulo de Exportación */}
+      <ExportModule />
+
+      <footer className="bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 text-white py-6 print:hidden">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-6 mb-6">
+            <div>
+              <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                <span className="text-2xl">🎼</span> Rubricalia
+              </h3>
+              <p className="text-sm text-purple-200">
+                Herramienta integral de programación didáctica para Enseñanzas Profesionales de Música
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Información</h4>
+              <ul className="text-sm text-purple-200 space-y-1">
+                <li>Curso Académico 2026/2027</li>
+                <li>Comunidad Autónoma de Extremadura</li>
+                <li>Versión V2.0 Auditada</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Autor</h4>
+              <ul className="text-sm text-purple-200 space-y-1">
+                <li>Prof. Manuel Gago Fernández</li>
+                <li>Especialista en Clarinete</li>
+                <li>Enseñanzas Profesionales de Música</li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-white/20 pt-4 text-center">
+            <p className="text-xs text-purple-200">
+              Estado documental: <span className="font-semibold text-white">AUDITADA / TRAZABLE / CON HOLD EXPLÍCITOS DONDE PROCEDA</span>
+            </p>
+            <p className="text-xs text-purple-300 mt-2">
+              © 2024 Rubricalia · Programación Didáctica de Música · Todos los derechos reservados
+            </p>
+          </div>
+        </div>
       </footer>
     </div>
   );
 }
 
 // ============================================================
-// VISTA INICIO — CLARINETE
+// VISTA INICIO PRINCIPAL — DISEÑO LIMPIO Y CENTRADO
 // ============================================================
-function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
+function VistaInicioPrincipal({ onNavigate }: { onNavigate: (v: Vista) => void }) {
   return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full font-bold">V2.0</span>
-          <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full font-bold">AUDITADA</span>
-          <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs rounded-full font-bold">60 UD</span>
+    <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center px-4 py-12">
+      {/* Logo y Nombre */}
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl shadow-lg mb-4">
+          <span className="text-5xl">🎼</span>
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Clarinete — Programación Didáctica</h2>
-        <p className="text-slate-600 mb-4">Curso académico 2026/2027 — Enseñanzas Elementales y Enseñanzas Profesionales de Música — Extremadura</p>
-        
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-          <StatCard label="Unidades Didácticas" value="60" color="blue" />
-          <StatCard label="Cursos" value="10" color="indigo" />
-          <StatCard label="Normativa verificada" value={String(NORMATIVA_BASE.filter(n => n.estado === 'VERIFIED').length)} color="green" />
-          <StatCard label="HOLD pendientes" value={String(AUDITORIA_FINAL.incidenciasHold)} color="amber" />
-        </div>
+        <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-2">Rubricalia</h1>
+        <p className="text-lg text-slate-600">Enseñanzas Profesionales de Música — Extremadura</p>
+      </div>
 
-        <div className="bg-slate-50 rounded-lg p-4 mb-6">
-          <h3 className="font-semibold text-slate-800 text-sm mb-2">Calendario 2026/2027</h3>
-          <div className="grid sm:grid-cols-2 gap-2 text-xs text-slate-600">
-            <p>📅 Inicio actividades: <strong>{CALENDARIO.inicioActividades}</strong></p>
-            <p>📅 Final ordinario: <strong>{CALENDARIO.finalOrdinario}</strong></p>
-            <p>📅 Final 6.º EP: <strong>{CALENDARIO.finalEP6}</strong></p>
-            <p>📅 Calificaciones ordinarias: <strong>{CALENDARIO.calificacionesOrdinarias}</strong></p>
-            <p>📅 Calificaciones 6.º EP: <strong>{CALENDARIO.calificacionesEP6}</strong></p>
-          </div>
-        </div>
+      {/* Título Principal */}
+      <div className="text-center mb-8 max-w-3xl">
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+          Programación Didáctica 2026/2027
+        </h2>
+        <p className="text-xl text-slate-700 mb-6">
+          Herramienta Integral de Evaluación y Programación
+        </p>
+        <p className="text-base text-slate-600 leading-relaxed mb-8">
+          Plataforma profesional para la gestión completa de programaciones didácticas, rúbricas de evaluación, 
+          unidades didácticas y normativa para las Enseñanzas Elementales y Profesionales de Música en Extremadura.
+        </p>
+      </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <NavCard title="60 Unidades Didácticas" desc="Navegar por las 60 UD con estructura completa" icon="📋" onClick={() => onNavigate('unidades')} />
-          <NavCard title="Matriz de Progresión" desc="Progresión vertical EE1→EP6" icon="📊" onClick={() => onNavigate('matriz')} />
-          <NavCard title="Repertorio" desc="Repertorio de referencia por curso" icon="🎵" onClick={() => onNavigate('repertorio')} />
+      {/* Botones de Acción Principales */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-12">
+        <button
+          onClick={() => onNavigate('programaciones')}
+          className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
+        >
+          <span>📚</span>
+          Ver Programaciones
+        </button>
+        <button
+          onClick={() => onNavigate('rubricas-completas')}
+          className="inline-flex items-center gap-2 bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200"
+        >
+          <span>📊</span>
+          Ver Rúbricas
+        </button>
+      </div>
+
+      {/* Estadísticas Destacadas */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl w-full mb-12">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
+          <div className="text-3xl font-bold text-indigo-600 mb-1">203</div>
+          <div className="text-sm text-slate-600">Rúbricas</div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
+          <div className="text-3xl font-bold text-purple-600 mb-1">60</div>
+          <div className="text-sm text-slate-600">Unidades Didácticas</div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
+          <div className="text-3xl font-bold text-pink-600 mb-1">11</div>
+          <div className="text-sm text-slate-600">Materias</div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
+          <div className="text-3xl font-bold text-green-600 mb-1">30</div>
+          <div className="text-sm text-slate-600">Apartados</div>
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EE [CO] — Aplicables al Clarinete</h3>
-          <div className="space-y-2">
-            {OBJETIVOS_OFICIALES_EE.filter(o => o.aplicaClarinete).map(o => (
-              <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
-                <span className="font-bold">{o.codigo}:</span> {o.texto}
-              </div>
-            ))}
-          </div>
-          <div className="mt-3 p-2 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600">
-            <span className="font-bold">Nota de trazabilidad:</span> EE-O6 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
-          </div>
+      {/* Características Principales */}
+      <div className="grid sm:grid-cols-3 gap-6 max-w-5xl w-full">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 text-center">
+          <div className="text-4xl mb-3">📚</div>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">Programaciones Completas</h3>
+          <p className="text-sm text-slate-600">
+            8 programaciones vigentes y verificadas con objetivos, contenidos, metodología y evaluación
+          </p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EP [CO] — Aplicables al Clarinete</h3>
-          <div className="space-y-2">
-            {OBJETIVOS_OFICIALES_EP.filter(o => o.aplicaClarinete).map(o => (
-              <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
-                <span className="font-bold">{o.codigo}:</span> {o.texto}
-              </div>
-            ))}
-          </div>
-          <div className="mt-3 p-2 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600">
-            <span className="font-bold">Nota de trazabilidad:</span> EP-O3 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
-          </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 text-center">
+          <div className="text-4xl mb-3">📊</div>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">Sistema de Rúbricas</h3>
+          <p className="text-sm text-slate-600">
+            203 rúbricas con 4 niveles de logro para evaluación objetiva y trazable
+          </p>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 text-center">
+          <div className="text-4xl mb-3">📄</div>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">Documento Completo</h3>
+          <p className="text-sm text-slate-600">
+            30 apartados con normativa, objetivos, contenidos y auditoría completa
+          </p>
         </div>
       </div>
     </div>
@@ -318,97 +462,162 @@ function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
 }
 
 // ============================================================
-// VISTA INICIO — ASIGNATURAS COLECTIVAS
+// COMPONENTE DE BÚSQUEDA CON APIs
 // ============================================================
-function VistaInicioColectiva({ asignatura, onNavigate }: { asignatura: AsignaturaColectiva; onNavigate: (v: Vista) => void }) {
-  const info = ASIGNATURA_INFO[asignatura];
-  const cursos = getCursosDisponibles(asignatura);
-  const rubricas = getRubricasByAsignatura(asignatura);
-  const colorMap: Record<string, string> = { 
-    indigo: 'indigo', 
-    violet: 'violet', 
-    fuchsia: 'fuchsia', 
-    rose: 'rose', 
-    pink: 'pink', 
-    teal: 'teal', 
-    cyan: 'cyan',
-    purple: 'purple', 
-    blue: 'blue', 
-    emerald: 'emerald' 
+function ComposerSearch() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async () => {
+    if (!query.trim()) return;
+    setLoading(true);
+    
+    try {
+      const response = await fetch(
+        `https://musicbrainz.org/ws/2/artist?query=${encodeURIComponent(query)}&fmt=json&limit=5`
+      );
+      const data = await response.json();
+      setResults(data.artists || []);
+    } catch (error) {
+      console.error('Error buscando:', error);
+    }
+    
+    setLoading(false);
   };
-  const color = colorMap[info.color] || 'slate';
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center gap-2 mb-3">
-          <span className={`px-2 py-0.5 bg-${color}-100 text-${color}-800 text-xs rounded-full font-bold`}>
-            {info.nombre.toUpperCase()}
-          </span>
-          <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full font-bold">V2.0</span>
-          <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full font-bold">AUDITADA</span>
+    <div className="space-y-3">
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Nombre del compositor (ej: Mozart, Beethoven...)"
+          className="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+        />
+        <button
+          onClick={handleSearch}
+          disabled={loading}
+          className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        >
+          {loading ? 'Buscando...' : 'Buscar'}
+        </button>
+      </div>
+      
+      {results.length > 0 && (
+        <div className="space-y-2">
+          {results.map((artist, i) => (
+            <div key={i} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-800">{artist.name}</h4>
+                  {artist['life-span'] && (
+                    <p className="text-xs text-slate-600">
+                      {artist['life-span'].begin || '?'} - {artist['life-span'].end || 'presente'}
+                    </p>
+                  )}
+                  {artist.country && (
+                    <p className="text-xs text-slate-500">{artist.country}</p>
+                  )}
+                </div>
+                <span className="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full">
+                  MusicBrainz
+                </span>
+              </div>
+              {artist.disambiguation && (
+                <p className="text-xs text-slate-600 mt-1">{artist.disambiguation}</p>
+              )}
+            </div>
+          ))}
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">{info.nombre}</h2>
-        <p className="text-slate-600 mb-4">{info.descripcion}</p>
-        
-        <div className="grid sm:grid-cols-3 gap-3 mb-6">
-          <StatCard label="Cursos" value={String(cursos.length)} color="blue" />
-          <StatCard label="Criterios (CO)" value="12" color="indigo" />
-          <StatCard label="Competencias (CM)" value="7" color="green" />
-        </div>
+      )}
+      
+      <div className="text-[10px] text-slate-500 pt-2 border-t border-slate-200">
+        Datos obtenidos de MusicBrainz API (gratuita)
+      </div>
+    </div>
+  );
+}
 
-        <div className="bg-slate-50 rounded-lg p-4 mb-6">
-          <h3 className="font-semibold text-slate-800 text-sm mb-2">Cursos disponibles</h3>
-          <div className="flex gap-2 flex-wrap">
-            {cursos.map(c => (
-              <span key={c} className={`px-3 py-1 bg-${color}-100 text-${color}-800 rounded text-sm font-medium`}>
-                {c}.º curso
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid sm:grid-cols-2 gap-3">
-          <NavCard title="Rúbricas de Evaluación" desc="Ver rúbricas analíticas por criterio y curso" icon="📊" onClick={() => onNavigate('rubricas')} />
-          <NavCard title="Normativa" desc="Marco normativo aplicable" icon="📜" onClick={() => onNavigate('normativa')} />
+// ============================================================
+// COMPONENTE DE CONTENIDO DE MATERIAS TEÓRICAS
+// ============================================================
+function MateriaTeoricaContent({ asignatura }: { asignatura: AsignaturaColectiva }) {
+  const materia = MATERIAS_TEORICAS[asignatura as MateriaTeoricaKey];
+  
+  if (!materia) return null;
+  
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+      <h3 className="font-bold text-slate-800 mb-3 text-sm">📚 Contenido Programático Completo</h3>
+      
+      <div className="mb-4">
+        <h4 className="font-semibold text-slate-700 text-xs mb-2">Objetivos</h4>
+        <ul className="space-y-1">
+          {materia.objetivos.map((obj, i) => (
+            <li key={i} className="text-xs text-slate-700 flex items-start gap-2">
+              <span className="text-blue-600 font-bold">{i + 1}.</span>
+              {obj}
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <div className="mb-4">
+        <h4 className="font-semibold text-slate-700 text-xs mb-2">Contenidos por Curso</h4>
+        <div className="space-y-3">
+          {Object.entries(materia.contenidosPorCurso).map(([curso, data]) => (
+            <div key={curso} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+              <h5 className="text-xs font-bold text-slate-800 mb-1">
+                {curso}.º Curso: {data.titulo}
+              </h5>
+              <ul className="space-y-0.5">
+                {data.contenidos.map((contenido, i) => (
+                  <li key={i} className="text-xs text-slate-700">
+                    • {contenido}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
-
-      {/* Criterios y Competencias */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">Criterios de Evaluación (CO-01 a CO-12)</h3>
-          <div className="space-y-1.5">
-            {CRITERIOS_EVALUACION.map(c => (
-              <div key={c.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
-                <span className="font-bold">{c.codigo}:</span> {c.nombre}
-                <span className="text-slate-500 ml-1">— {c.descripcion}</span>
-              </div>
+      
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <h4 className="font-semibold text-slate-700 text-xs mb-2">Metodología</h4>
+          <ul className="space-y-1">
+            {materia.metodologia.map((met, i) => (
+              <li key={i} className="text-xs text-slate-700">
+                • {met}
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">Competencias Musicales (CM-1 a CM-7)</h3>
-          <div className="space-y-1.5">
-            {COMPETENCIAS.map(c => (
-              <div key={c.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
-                <span className="font-bold">{c.codigo}:</span> {c.nombre}
-              </div>
-            ))}
-          </div>
-          <div className="mt-4">
-            <h4 className="font-semibold text-slate-700 text-xs mb-2">Mapeo Criterios → Competencias</h4>
-            <div className="space-y-1">
-              {Object.entries(CRITERIO_COMPETENCIA_MAP).map(([crit, comps]) => (
-                <div key={crit} className="text-[10px] flex gap-1 items-center">
-                  <span className="font-mono font-bold text-slate-600">{crit}</span>
-                  <span className="text-slate-400">→</span>
-                  {comps.map(cm => (
-                    <span key={cm} className="px-1 py-0.5 bg-indigo-50 text-indigo-700 rounded">{cm}</span>
-                  ))}
-                </div>
+        
+        <div>
+          <h4 className="font-semibold text-slate-700 text-xs mb-2">Evaluación</h4>
+          <div className="mb-2">
+            <p className="text-xs font-medium text-slate-700 mb-1">Instrumentos:</p>
+            <ul className="space-y-0.5">
+              {materia.evaluacion.instrumentos.map((inst, i) => (
+                <li key={i} className="text-xs text-slate-700">
+                  • {inst}
+                </li>
               ))}
-            </div>
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs font-medium text-slate-700 mb-1">Criterios:</p>
+            <ul className="space-y-0.5">
+              {materia.evaluacion.criterios.map((crit, i) => (
+                <li key={i} className="text-xs text-slate-700">
+                  • {crit}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
@@ -958,6 +1167,118 @@ function VistaAuditoria() {
               <span className="ml-auto text-slate-500 text-[10px]">{item.r}</span>
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// VISTA DOCUMENTO COMPLETO
+// ============================================================
+function VistaDocumento() {
+  const [apartadoExpandido, setApartadoExpandido] = useState<string | null>('1');
+  const todosLosApartados = [...DOCUMENTO_COMPLETO, ...DOCUMENTO_COMPLETO_3_30, ...DOCUMENTO_RESTO, ...DOCUMENTO_FINAL];
+
+  return (
+    <div className="space-y-4">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+        <h2 className="text-lg font-bold text-slate-900 mb-1">Programación Didáctica Completa — 30 Apartados</h2>
+        <p className="text-xs text-slate-500">Documento completo con todos los apartados desarrollados según el superprompt maestro</p>
+        <div className="mt-3 flex gap-2 flex-wrap">
+          <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full font-bold">NORMA VIGENTE</span>
+          <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full font-bold">DESARROLLO PROPIO</span>
+          <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs rounded-full font-bold">HOLD — PENDIENTE</span>
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        {todosLosApartados.map(apartado => (
+          <div key={apartado.numero} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <button
+              onClick={() => setApartadoExpandido(apartadoExpandido === apartado.numero ? null : apartado.numero)}
+              className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-lg font-bold text-blue-600">{apartado.numero}.</span>
+                <span className="font-semibold text-slate-800">{apartado.titulo}</span>
+                <span className="text-xs text-slate-500">({apartado.subapartados.length} subapartados)</span>
+              </div>
+              <svg
+                className={`w-5 h-5 text-slate-400 transition-transform ${apartadoExpandido === apartado.numero ? 'rotate-180' : ''}`}
+                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            
+            {apartadoExpandido === apartado.numero && (
+              <div className="px-4 pb-4 border-t border-slate-100">
+                <div className="space-y-4 mt-4">
+                  {apartado.subapartados.map(sub => (
+                    <div key={sub.numero} className="border-l-2 border-blue-200 pl-3">
+                      <h4 className="font-semibold text-slate-800 text-sm mb-2">
+                        <span className="text-blue-600">{sub.numero}</span> {sub.titulo}
+                        {sub.categoria && (
+                          <span className={`ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                            sub.categoria === 'NORMA' ? 'bg-green-100 text-green-800' :
+                            sub.categoria === 'HOLD' ? 'bg-amber-100 text-amber-800' :
+                            'bg-blue-100 text-blue-800'
+                          }`}>
+                            {sub.categoria}
+                          </span>
+                        )}
+                      </h4>
+                      <div className="space-y-1">
+                        {sub.contenido.map((linea, i) => (
+                          <p key={i} className="text-xs text-slate-700 leading-relaxed">
+                            {linea.startsWith('[DESARROLLO PROPIO]') || linea.startsWith('[NORMA VIGENTE]') || linea.startsWith('[HOLD]') || linea.startsWith('[REPERTORIO') ? (
+                              <span className={`font-bold ${
+                                linea.includes('DESARROLLO') ? 'text-blue-600' :
+                                linea.includes('NORMA') ? 'text-green-600' :
+                                linea.includes('HOLD') ? 'text-amber-600' :
+                                'text-purple-600'
+                              }`}>{linea}</span>
+                            ) : (
+                              linea
+                            )}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-slate-50 rounded-xl border border-slate-200 p-4">
+        <h3 className="font-bold text-slate-800 text-sm mb-2">Resumen del Documento</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div className="bg-white rounded-lg p-2 border border-slate-200">
+            <div className="text-lg font-bold text-slate-800">{todosLosApartados.length}</div>
+            <div className="text-xs text-slate-500">Apartados</div>
+          </div>
+          <div className="bg-white rounded-lg p-2 border border-slate-200">
+            <div className="text-lg font-bold text-slate-800">
+              {todosLosApartados.reduce((acc, a) => acc + a.subapartados.length, 0)}
+            </div>
+            <div className="text-xs text-slate-500">Subapartados</div>
+          </div>
+          <div className="bg-white rounded-lg p-2 border border-slate-200">
+            <div className="text-lg font-bold text-green-600">
+              {todosLosApartados.reduce((acc, a) => acc + a.subapartados.filter(s => s.categoria === 'NORMA').length, 0)}
+            </div>
+            <div className="text-xs text-slate-500">Normativa</div>
+          </div>
+          <div className="bg-white rounded-lg p-2 border border-slate-200">
+            <div className="text-lg font-bold text-amber-600">
+              {todosLosApartados.reduce((acc, a) => acc + a.subapartados.filter(s => s.categoria === 'HOLD').length, 0)}
+            </div>
+            <div className="text-xs text-slate-500">Pendientes</div>
+          </div>
         </div>
       </div>
     </div>
