@@ -15,12 +15,22 @@ import {
   REPERTORIO_REFERENCIA,
   AUDITORIA_FINAL,
   Curso,
+  AsignaturaColectiva,
+  CursoColectivo,
+  CRITERIOS_EVALUACION,
+  COMPETENCIAS,
+  CRITERIO_COMPETENCIA_MAP,
+  CURSOS_VALIDOS,
+  ASIGNATURA_INFO,
+  getRubricasByAsignatura,
+  getCursosDisponibles,
 } from './data';
 
-type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria';
+type Asignatura = 'clarinete' | AsignaturaColectiva;
+type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas';
 
-const CURSOS: Curso[] = ['EE1', 'EE2', 'EE3', 'EE4', 'EP1', 'EP2', 'EP3', 'EP4', 'EP5', 'EP6'];
-const NOMBRE_CURSO: Record<Curso, string> = {
+const CURSOS_CLARINETE: Curso[] = ['EE1', 'EE2', 'EE3', 'EE4', 'EP1', 'EP2', 'EP3', 'EP4', 'EP5', 'EP6'];
+const NOMBRE_CURSO_CLARINETE: Record<Curso, string> = {
   EE1: '1.º Elementales', EE2: '2.º Elementales', EE3: '3.º Elementales', EE4: '4.º Elementales',
   EP1: '1.º Profesionales', EP2: '2.º Profesionales', EP3: '3.º Profesionales',
   EP4: '4.º Profesionales', EP5: '5.º Profesionales', EP6: '6.º Profesionales',
@@ -32,18 +42,29 @@ const ETAPA_FASE: Record<Curso, string> = {
 };
 
 export default function App() {
+  const [asignatura, setAsignatura] = useState<Asignatura>('clarinete');
   const [vista, setVista] = useState<Vista>('inicio');
   const [udSeleccionada, setUdSeleccionada] = useState<string>('');
-  const [cursoFiltro, setCursoFiltro] = useState<Curso | 'TODOS'>('TODOS');
+  const [cursoFiltro, setCursoFiltro] = useState<string>('TODOS');
+  const [cursoColectivoFiltro, setCursoColectivoFiltro] = useState<CursoColectivo | 'TODOS'>('TODOS');
 
   const udFiltradas = useMemo(() =>
-    cursoFiltro === 'TODOS' ? ESTRUCTURA_60_UD : ESTRUCTURA_60_UD.filter(u => u.curso === cursoFiltro),
-    [cursoFiltro]
+    asignatura === 'clarinete'
+      ? (cursoFiltro === 'TODOS' ? ESTRUCTURA_60_UD : ESTRUCTURA_60_UD.filter(u => u.curso === cursoFiltro))
+      : [],
+    [asignatura, cursoFiltro]
   );
 
   const abrirUD = (codigo: string) => {
     setUdSeleccionada(codigo);
     setVista('detalle');
+  };
+
+  const cambiarAsignatura = (a: Asignatura) => {
+    setAsignatura(a);
+    setVista('inicio');
+    setCursoFiltro('TODOS');
+    setCursoColectivoFiltro('TODOS');
   };
 
   return (
@@ -53,53 +74,109 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div>
-              <h1 className="text-base sm:text-lg font-bold tracking-tight">PROGRAMACIÓN DIDÁCTICA DE CLARINETE 2026/2027</h1>
+              <h1 className="text-base sm:text-lg font-bold tracking-tight">PROGRAMACIÓN DIDÁCTICA 2026/2027</h1>
               <p className="text-[10px] sm:text-xs text-blue-200 print:text-gray-600">
-                EE + EP · 10 cursos · 60 UD · V2.0 Auditada · Prof. Manuel Gago Fernández
+                Enseñanzas Profesionales de Música — Extremadura · V2.0 Auditada · Prof. Manuel Gago Fernández
               </p>
             </div>
-            <nav className="flex gap-1 flex-wrap print:hidden">
-              {[
-                { id: 'inicio' as Vista, label: 'Inicio' },
+          </div>
+          {/* Selector de Asignatura */}
+          <div className="flex gap-1.5 mt-2 flex-wrap">
+            <button
+              onClick={() => cambiarAsignatura('clarinete')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'clarinete' ? 'bg-white text-slate-900' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🎵 Clarinete
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('camara')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'camara' ? 'bg-purple-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🎻 Cámara
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('banda')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'banda' ? 'bg-blue-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🎺 Banda
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('orquesta')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'orquesta' ? 'bg-emerald-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🎼 Orquesta
+            </button>
+          </div>
+          {/* Navigation */}
+          <nav className="flex gap-1 mt-2 flex-wrap print:hidden">
+            {[
+              { id: 'inicio' as Vista, label: 'Inicio' },
+              ...(asignatura === 'clarinete' ? [
                 { id: 'unidades' as Vista, label: '60 UD' },
                 { id: 'matriz' as Vista, label: 'Progresión' },
-                { id: 'normativa' as Vista, label: 'Normativa' },
                 { id: 'repertorio' as Vista, label: 'Repertorio' },
-                { id: 'incidencias' as Vista, label: 'Incidencias' },
-                { id: 'auditoria' as Vista, label: 'Auditoría' },
-              ].map(item => (
-                <button
-                  key={item.id}
-                  onClick={() => setVista(item.id)}
-                  className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
-                    vista === item.id ? 'bg-white/20 text-white' : 'text-blue-200 hover:bg-white/10'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </nav>
-          </div>
+              ] : [
+                { id: 'rubricas' as Vista, label: 'Rúbricas' },
+              ]),
+              { id: 'normativa' as Vista, label: 'Normativa' },
+              { id: 'incidencias' as Vista, label: 'Incidencias' },
+              { id: 'auditoria' as Vista, label: 'Auditoría' },
+            ].map(item => (
+              <button
+                key={item.id}
+                onClick={() => setVista(item.id)}
+                className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
+                  vista === item.id ? 'bg-white/20 text-white' : 'text-blue-200 hover:bg-white/10'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
         </div>
       </header>
 
       {/* MAIN */}
       <main className="flex-1 max-w-7xl mx-auto px-4 py-6 w-full">
-        {vista === 'inicio' && <VistaInicio onNavigate={setVista} />}
-        {vista === 'unidades' && (
-          <VistaUnidades
-            udFiltradas={udFiltradas}
-            cursoFiltro={cursoFiltro}
-            setCursoFiltro={setCursoFiltro}
-            onOpen={abrirUD}
-          />
+        {asignatura === 'clarinete' && (
+          <>
+            {vista === 'inicio' && <VistaInicio onNavigate={setVista} />}
+            {vista === 'unidades' && (
+              <VistaUnidades
+                udFiltradas={udFiltradas}
+                cursoFiltro={cursoFiltro}
+                setCursoFiltro={setCursoFiltro}
+                onOpen={abrirUD}
+              />
+            )}
+            {vista === 'detalle' && udSeleccionada && (
+              <VistaDetalle codigo={udSeleccionada} onBack={() => setVista('unidades')} />
+            )}
+            {vista === 'matriz' && <VistaMatriz />}
+            {vista === 'repertorio' && <VistaRepertorio />}
+          </>
         )}
-        {vista === 'detalle' && udSeleccionada && (
-          <VistaDetalle codigo={udSeleccionada} onBack={() => setVista('unidades')} />
+        {asignatura !== 'clarinete' && (
+          <>
+            {vista === 'inicio' && <VistaInicioColectiva asignatura={asignatura} onNavigate={setVista} />}
+            {vista === 'rubricas' && (
+              <VistaRubricas
+                asignatura={asignatura}
+                cursoFiltro={cursoColectivoFiltro}
+                setCursoFiltro={setCursoColectivoFiltro}
+              />
+            )}
+          </>
         )}
-        {vista === 'matriz' && <VistaMatriz />}
         {vista === 'normativa' && <VistaNormativa />}
-        {vista === 'repertorio' && <VistaRepertorio />}
         {vista === 'incidencias' && <VistaIncidencias />}
         {vista === 'auditoria' && <VistaAuditoria />}
       </main>
@@ -113,7 +190,7 @@ export default function App() {
 }
 
 // ============================================================
-// VISTA INICIO
+// VISTA INICIO — CLARINETE
 // ============================================================
 function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
   return (
@@ -124,7 +201,7 @@ function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
           <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full font-bold">AUDITADA</span>
           <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs rounded-full font-bold">60 UD</span>
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Programación Didáctica de Clarinete</h2>
+        <h2 className="text-2xl font-bold text-slate-900 mb-2">Clarinete — Programación Didáctica</h2>
         <p className="text-slate-600 mb-4">Curso académico 2026/2027 — Enseñanzas Elementales y Enseñanzas Profesionales de Música — Extremadura</p>
         
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
@@ -134,7 +211,7 @@ function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
           <StatCard label="HOLD pendientes" value={String(AUDITORIA_FINAL.incidenciasHold)} color="amber" />
         </div>
 
-        <div className="bg-slate-50 rounded-lg p-4 mb-4">
+        <div className="bg-slate-50 rounded-lg p-4 mb-6">
           <h3 className="font-semibold text-slate-800 text-sm mb-2">Calendario 2026/2027</h3>
           <div className="grid sm:grid-cols-2 gap-2 text-xs text-slate-600">
             <p>📅 Inicio actividades: <strong>{CALENDARIO.inicioActividades}</strong></p>
@@ -148,58 +225,143 @@ function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <NavCard title="60 Unidades Didácticas" desc="Navegar por las 60 UD con estructura completa" icon="📋" onClick={() => onNavigate('unidades')} />
           <NavCard title="Matriz de Progresión" desc="Progresión vertical EE1→EP6" icon="📊" onClick={() => onNavigate('matriz')} />
-          <NavCard title="Marco Normativo" desc="Normativa estatal y autonómica verificada" icon="📜" onClick={() => onNavigate('normativa')} />
           <NavCard title="Repertorio" desc="Repertorio de referencia por curso" icon="🎵" onClick={() => onNavigate('repertorio')} />
-          <NavCard title="Registro de Incidencias" desc="Incidencias detectadas y resueltas" icon="⚠️" onClick={() => onNavigate('incidencias')} />
-          <NavCard title="Auditoría Final" desc="Informe de auditoría V2.0" icon="✅" onClick={() => onNavigate('auditoria')} />
         </div>
       </div>
 
-      {/* Objetivos y Contenidos oficiales */}
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-            <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EE [CO] — Aplicables al Clarinete</h3>
-            <div className="space-y-2">
-              {OBJETIVOS_OFICIALES_EE.filter(o => o.aplicaClarinete).map(o => (
-                <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
-                  <span className="font-bold">{o.codigo}:</span> {o.texto}
-                </div>
-              ))}
-            </div>
-            <div className="mt-3 p-2 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600">
-              <span className="font-bold">Nota de trazabilidad:</span> EE-O6 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
-            </div>
+      <div className="grid lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EE [CO] — Aplicables al Clarinete</h3>
+          <div className="space-y-2">
+            {OBJETIVOS_OFICIALES_EE.filter(o => o.aplicaClarinete).map(o => (
+              <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
+                <span className="font-bold">{o.codigo}:</span> {o.texto}
+              </div>
+            ))}
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-            <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EP [CO] — Aplicables al Clarinete</h3>
-            <div className="space-y-2">
-              {OBJETIVOS_OFICIALES_EP.filter(o => o.aplicaClarinete).map(o => (
-                <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
-                  <span className="font-bold">{o.codigo}:</span> {o.texto}
-                </div>
-              ))}
-            </div>
-            <div className="mt-3 p-2 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600">
-              <span className="font-bold">Nota de trazabilidad:</span> EP-O3 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
-            </div>
+          <div className="mt-3 p-2 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600">
+            <span className="font-bold">Nota de trazabilidad:</span> EE-O6 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
           </div>
-        </div>    </div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EP [CO] — Aplicables al Clarinete</h3>
+          <div className="space-y-2">
+            {OBJETIVOS_OFICIALES_EP.filter(o => o.aplicaClarinete).map(o => (
+              <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
+                <span className="font-bold">{o.codigo}:</span> {o.texto}
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 p-2 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600">
+            <span className="font-bold">Nota de trazabilidad:</span> EP-O3 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
 // ============================================================
-// VISTA UNIDADES
+// VISTA INICIO — ASIGNATURAS COLECTIVAS
+// ============================================================
+function VistaInicioColectiva({ asignatura, onNavigate }: { asignatura: AsignaturaColectiva; onNavigate: (v: Vista) => void }) {
+  const info = ASIGNATURA_INFO[asignatura];
+  const cursos = getCursosDisponibles(asignatura);
+  const rubricas = getRubricasByAsignatura(asignatura);
+  const colorMap: Record<string, string> = { purple: 'purple', blue: 'blue', emerald: 'emerald' };
+  const color = colorMap[info.color];
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div className="flex items-center gap-2 mb-3">
+          <span className={`px-2 py-0.5 bg-${color}-100 text-${color}-800 text-xs rounded-full font-bold`}>
+            {info.nombre.toUpperCase()}
+          </span>
+          <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full font-bold">V2.0</span>
+          <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full font-bold">AUDITADA</span>
+        </div>
+        <h2 className="text-2xl font-bold text-slate-900 mb-2">{info.nombre}</h2>
+        <p className="text-slate-600 mb-4">{info.descripcion}</p>
+        
+        <div className="grid sm:grid-cols-3 gap-3 mb-6">
+          <StatCard label="Cursos" value={String(cursos.length)} color="blue" />
+          <StatCard label="Criterios (CO)" value="12" color="indigo" />
+          <StatCard label="Competencias (CM)" value="7" color="green" />
+        </div>
+
+        <div className="bg-slate-50 rounded-lg p-4 mb-6">
+          <h3 className="font-semibold text-slate-800 text-sm mb-2">Cursos disponibles</h3>
+          <div className="flex gap-2 flex-wrap">
+            {cursos.map(c => (
+              <span key={c} className={`px-3 py-1 bg-${color}-100 text-${color}-800 rounded text-sm font-medium`}>
+                {c}.º curso
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-3">
+          <NavCard title="Rúbricas de Evaluación" desc="Ver rúbricas analíticas por criterio y curso" icon="📊" onClick={() => onNavigate('rubricas')} />
+          <NavCard title="Normativa" desc="Marco normativo aplicable" icon="📜" onClick={() => onNavigate('normativa')} />
+        </div>
+      </div>
+
+      {/* Criterios y Competencias */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <h3 className="font-bold text-slate-800 mb-3 text-sm">Criterios de Evaluación (CO-01 a CO-12)</h3>
+          <div className="space-y-1.5">
+            {CRITERIOS_EVALUACION.map(c => (
+              <div key={c.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
+                <span className="font-bold">{c.codigo}:</span> {c.nombre}
+                <span className="text-slate-500 ml-1">— {c.descripcion}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <h3 className="font-bold text-slate-800 mb-3 text-sm">Competencias Musicales (CM-1 a CM-7)</h3>
+          <div className="space-y-1.5">
+            {COMPETENCIAS.map(c => (
+              <div key={c.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
+                <span className="font-bold">{c.codigo}:</span> {c.nombre}
+              </div>
+            ))}
+          </div>
+          <div className="mt-4">
+            <h4 className="font-semibold text-slate-700 text-xs mb-2">Mapeo Criterios → Competencias</h4>
+            <div className="space-y-1">
+              {Object.entries(CRITERIO_COMPETENCIA_MAP).map(([crit, comps]) => (
+                <div key={crit} className="text-[10px] flex gap-1 items-center">
+                  <span className="font-mono font-bold text-slate-600">{crit}</span>
+                  <span className="text-slate-400">→</span>
+                  {comps.map(cm => (
+                    <span key={cm} className="px-1 py-0.5 bg-indigo-50 text-indigo-700 rounded">{cm}</span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// VISTA UNIDADES — CLARINETE
 // ============================================================
 function VistaUnidades({ udFiltradas, cursoFiltro, setCursoFiltro, onOpen }: {
   udFiltradas: typeof ESTRUCTURA_60_UD;
-  cursoFiltro: Curso | 'TODOS';
-  setCursoFiltro: (c: Curso | 'TODOS') => void;
+  cursoFiltro: string;
+  setCursoFiltro: (c: string) => void;
   onOpen: (codigo: string) => void;
 }) {
   return (
     <div className="space-y-4">
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-        <h2 className="text-lg font-bold text-slate-900 mb-3">60 Unidades Didácticas</h2>
+        <h2 className="text-lg font-bold text-slate-900 mb-3">60 Unidades Didácticas — Clarinete</h2>
         <div className="flex gap-1.5 flex-wrap">
           <button
             onClick={() => setCursoFiltro('TODOS')}
@@ -207,7 +369,7 @@ function VistaUnidades({ udFiltradas, cursoFiltro, setCursoFiltro, onOpen }: {
           >
             Todos
           </button>
-          {CURSOS.map(c => (
+          {CURSOS_CLARINETE.map(c => (
             <button
               key={c}
               onClick={() => setCursoFiltro(c)}
@@ -246,7 +408,7 @@ function VistaUnidades({ udFiltradas, cursoFiltro, setCursoFiltro, onOpen }: {
 }
 
 // ============================================================
-// VISTA DETALLE UD
+// VISTA DETALLE UD — CLARINETE
 // ============================================================
 function VistaDetalle({ codigo, onBack }: { codigo: string; onBack: () => void }) {
   const udInfo = ESTRUCTURA_60_UD.find(u => u.codigo === codigo);
@@ -277,7 +439,6 @@ function VistaDetalle({ codigo, onBack }: { codigo: string; onBack: () => void }
             <Seccion titulo="Justificación" contenido={udDetalle.justificacion} />
             <Seccion titulo="Conexión Normativa" contenido={udDetalle.conexionNormativa} />
             
-            {/* Objetivos */}
             <div>
               <h3 className="font-bold text-slate-800 text-sm mb-2">Objetivos Didácticos ({udDetalle.objetivos.length})</h3>
               <div className="space-y-1.5">
@@ -292,7 +453,6 @@ function VistaDetalle({ codigo, onBack }: { codigo: string; onBack: () => void }
               </div>
             </div>
 
-            {/* Contenidos */}
             <div>
               <h3 className="font-bold text-slate-800 text-sm mb-2">Contenidos ({udDetalle.contenidos.length})</h3>
               <div className="space-y-1.5">
@@ -306,7 +466,6 @@ function VistaDetalle({ codigo, onBack }: { codigo: string; onBack: () => void }
               </div>
             </div>
 
-            {/* Secuencias */}
             <div>
               <h3 className="font-bold text-slate-800 text-sm mb-2">Secuencias de Desarrollo ({udDetalle.secuencias.length})</h3>
               <div className="overflow-x-auto">
@@ -341,7 +500,6 @@ function VistaDetalle({ codigo, onBack }: { codigo: string; onBack: () => void }
             <Seccion titulo="Transferencia" contenido={udDetalle.transferencia} />
             <Seccion titulo="Trazabilidad" contenido={udDetalle.trazabilidad} />
 
-            {/* Incidencias */}
             {udDetalle.incidencias.length > 0 && (
               <div>
                 <h3 className="font-bold text-slate-800 text-sm mb-2">Incidencias</h3>
@@ -353,7 +511,6 @@ function VistaDetalle({ codigo, onBack }: { codigo: string; onBack: () => void }
               </div>
             )}
 
-            {/* Estado */}
             <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
               <p className="text-xs"><span className="font-bold">Estado:</span> {udDetalle.estado}</p>
               <p className="text-xs"><span className="font-bold">Verificación:</span> {udDetalle.estadoVerificacion}</p>
@@ -362,14 +519,10 @@ function VistaDetalle({ codigo, onBack }: { codigo: string; onBack: () => void }
         ) : (
           <div className="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-4">
             <p className="text-sm text-amber-800 font-medium">Unidad con estructura definida. Desarrollo completo pendiente de auditoría individual.</p>
-            <p className="text-xs text-amber-700 mt-1">
-              Código: {codigo} · Curso: {udInfo.curso} · Trimestre: {udInfo.trimestre}
-            </p>
-            <p className="text-xs text-amber-700 mt-1">
-              Foco: {ETAPA_FASE[udInfo.curso]}
-            </p>
+            <p className="text-xs text-amber-700 mt-1">Código: {codigo} · Curso: {udInfo.curso} · Trimestre: {udInfo.trimestre}</p>
+            <p className="text-xs text-amber-700 mt-1">Foco: {ETAPA_FASE[udInfo.curso]}</p>
             <p className="text-xs text-amber-600 mt-2 italic">
-              [H] Esta unidad sigue la arquitectura obligatoria de 21 elementos. El desarrollo detallado de objetivos, contenidos, secuencias, actividades, evidencias, criterios, herramientas y rúbricas se realizará en la auditoría individual conforme al protocolo de 20 fases.
+              [H] Esta unidad sigue la arquitectura obligatoria de 21 elementos. El desarrollo detallado se realizará en la auditoría individual conforme al protocolo de 20 fases.
             </p>
           </div>
         )}
@@ -388,7 +541,7 @@ function Seccion({ titulo, contenido }: { titulo: string; contenido: string }) {
 }
 
 // ============================================================
-// VISTA MATRIZ
+// VISTA MATRIZ — CLARINETE
 // ============================================================
 function VistaMatriz() {
   return (
@@ -427,6 +580,102 @@ function VistaMatriz() {
             ))}
           </tbody>
         </table>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// VISTA RÚBRICAS — ASIGNATURAS COLECTIVAS
+// ============================================================
+function VistaRubricas({ asignatura, cursoFiltro, setCursoFiltro }: {
+  asignatura: AsignaturaColectiva;
+  cursoFiltro: CursoColectivo | 'TODOS';
+  setCursoFiltro: (c: CursoColectivo | 'TODOS') => void;
+}) {
+  const info = ASIGNATURA_INFO[asignatura];
+  const cursos = getCursosDisponibles(asignatura);
+  const todasRubricas = getRubricasByAsignatura(asignatura);
+  const rubricasFiltradas = cursoFiltro === 'TODOS'
+    ? todasRubricas
+    : todasRubricas.filter(r => r.curso === cursoFiltro);
+
+  const colorMap: Record<string, string> = { purple: 'purple', blue: 'blue', emerald: 'emerald' };
+  const color = colorMap[info.color];
+
+  return (
+    <div className="space-y-4">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+        <h2 className="text-lg font-bold text-slate-900 mb-1">Rúbricas de Evaluación — {info.nombre}</h2>
+        <p className="text-xs text-slate-500">12 criterios × {cursos.length} cursos · Niveles: L1 (Inicial) · L2 (En desarrollo) · L3 (Adecuado) · L4 (Consolidado)</p>
+        <div className="flex gap-1.5 flex-wrap mt-3">
+          <button
+            onClick={() => setCursoFiltro('TODOS')}
+            className={`px-3 py-1 rounded text-xs font-medium ${cursoFiltro === 'TODOS' ? `bg-${color}-600 text-white` : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+          >
+            Todos
+          </button>
+          {cursos.map(c => (
+            <button
+              key={c}
+              onClick={() => setCursoFiltro(c)}
+              className={`px-3 py-1 rounded text-xs font-medium ${cursoFiltro === c ? `bg-${color}-600 text-white` : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            >
+              {c}.º
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+        <table className="w-full text-xs">
+          <thead>
+            <tr className="bg-slate-100 sticky top-0">
+              <th className="p-2 text-left font-semibold text-slate-700 min-w-[120px]">Criterio</th>
+              <th className="p-2 text-left font-semibold text-orange-700 min-w-[200px]">L1 — Inicial</th>
+              <th className="p-2 text-left font-semibold text-amber-700 min-w-[200px]">L2 — En desarrollo</th>
+              <th className="p-2 text-left font-semibold text-blue-700 min-w-[200px]">L3 — Adecuado</th>
+              <th className="p-2 text-left font-semibold text-emerald-700 min-w-[200px]">L4 — Consolidado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rubricasFiltradas.map((r, i) => {
+              const crit = CRITERIOS_EVALUACION.find(c => c.codigo === r.criterio);
+              return (
+                <tr key={`${r.criterio}-${r.curso}`} className={`border-t border-slate-100 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}>
+                  <td className="p-2 align-top">
+                    <div className="font-bold text-indigo-700">{r.criterio}</div>
+                    <div className="text-[10px] text-slate-600">{crit?.nombre}</div>
+                    <div className="text-[10px] text-slate-400">{r.curso}.º curso</div>
+                  </td>
+                  <td className="p-2 align-top text-slate-700">{r.descriptores.L1}</td>
+                  <td className="p-2 align-top text-slate-700">{r.descriptores.L2}</td>
+                  <td className="p-2 align-top text-slate-700">{r.descriptores.L3}</td>
+                  <td className="p-2 align-top text-slate-700">{r.descriptores.L4}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Sistema de puntuación */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+        <h3 className="font-bold text-slate-800 text-sm mb-3">Sistema de Puntuación</h3>
+        <div className="text-xs text-slate-700 space-y-2">
+          <p>Cada criterio se puntúa de <strong>1</strong> (L1 Inicial) a <strong>4</strong> (L4 Consolidado).</p>
+          <p><strong>Puntuación máxima</strong> = Número de criterios × 4</p>
+          <p><strong>Nota final</strong> = (Suma total × 10) / Puntuación máxima</p>
+          <div className="mt-3 bg-slate-50 rounded-lg p-3 border border-slate-200">
+            <p className="font-medium text-slate-800 mb-1">Escala de calificación:</p>
+            <ul className="space-y-1">
+              <li>• 1.0 – 3.9 → <span className="text-orange-600 font-medium">Nivel Inicial (Insuficiente)</span></li>
+              <li>• 4.0 – 5.9 → <span className="text-amber-600 font-medium">Nivel En desarrollo (Suficiente)</span></li>
+              <li>• 6.0 – 7.9 → <span className="text-blue-600 font-medium">Nivel Adecuado (Notable)</span></li>
+              <li>• 8.0 – 10 → <span className="text-emerald-600 font-medium">Nivel Consolidado (Sobresaliente)</span></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -477,7 +726,6 @@ function VistaNormativa() {
         </table>
       </div>
 
-      {/* Criterios oficiales */}
       <div className="grid lg:grid-cols-2 gap-4">
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
           <h3 className="font-bold text-slate-800 text-sm mb-3">Criterios Oficiales EE [CO]</h3>
@@ -501,13 +749,13 @@ function VistaNormativa() {
 }
 
 // ============================================================
-// VISTA REPERTORIO
+// VISTA REPERTORIO — CLARINETE
 // ============================================================
 function VistaRepertorio() {
   return (
     <div className="space-y-4">
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-        <h2 className="text-lg font-bold text-slate-900 mb-1">Repertorio de Referencia</h2>
+        <h2 className="text-lg font-bold text-slate-900 mb-1">Repertorio de Referencia — Clarinete</h2>
         <p className="text-xs text-slate-500">Clasificado como [E] — Fuente repertorial / Decisión didáctica. Ninguna obra se presenta como obligatoria.</p>
       </div>
       {REPERTORIO_REFERENCIA.map(r => (
