@@ -24,10 +24,14 @@ import {
   ASIGNATURA_INFO,
   getRubricasByAsignatura,
   getCursosDisponibles,
+  DOCUMENTO_COMPLETO,
+  DOCUMENTO_COMPLETO_3_30,
+  DOCUMENTO_RESTO,
+  DOCUMENTO_FINAL,
 } from './data';
 
 type Asignatura = 'clarinete' | AsignaturaColectiva;
-type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas';
+type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas' | 'documento';
 
 const CURSOS_CLARINETE: Curso[] = ['EE1', 'EE2', 'EE3', 'EE4', 'EP1', 'EP2', 'EP3', 'EP4', 'EP5', 'EP6'];
 const NOMBRE_CURSO_CLARINETE: Record<Curso, string> = {
@@ -175,6 +179,7 @@ export default function App() {
           <nav className="flex gap-1 mt-2 flex-wrap print:hidden">
             {[
               { id: 'inicio' as Vista, label: 'Inicio' },
+              { id: 'documento' as Vista, label: 'Documento' },
               ...(asignatura === 'clarinete' ? [
                 { id: 'unidades' as Vista, label: '60 UD' },
                 { id: 'matriz' as Vista, label: 'Progresión' },
@@ -232,6 +237,7 @@ export default function App() {
             )}
           </>
         )}
+        {vista === 'documento' && <VistaDocumento />}
         {vista === 'normativa' && <VistaNormativa />}
         {vista === 'incidencias' && <VistaIncidencias />}
         {vista === 'auditoria' && <VistaAuditoria />}
@@ -958,6 +964,118 @@ function VistaAuditoria() {
               <span className="ml-auto text-slate-500 text-[10px]">{item.r}</span>
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// VISTA DOCUMENTO COMPLETO
+// ============================================================
+function VistaDocumento() {
+  const [apartadoExpandido, setApartadoExpandido] = useState<string | null>('1');
+  const todosLosApartados = [...DOCUMENTO_COMPLETO, ...DOCUMENTO_COMPLETO_3_30, ...DOCUMENTO_RESTO, ...DOCUMENTO_FINAL];
+
+  return (
+    <div className="space-y-4">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+        <h2 className="text-lg font-bold text-slate-900 mb-1">Programación Didáctica Completa — 30 Apartados</h2>
+        <p className="text-xs text-slate-500">Documento completo con todos los apartados desarrollados según el superprompt maestro</p>
+        <div className="mt-3 flex gap-2 flex-wrap">
+          <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full font-bold">NORMA VIGENTE</span>
+          <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full font-bold">DESARROLLO PROPIO</span>
+          <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs rounded-full font-bold">HOLD — PENDIENTE</span>
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        {todosLosApartados.map(apartado => (
+          <div key={apartado.numero} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <button
+              onClick={() => setApartadoExpandido(apartadoExpandido === apartado.numero ? null : apartado.numero)}
+              className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-lg font-bold text-blue-600">{apartado.numero}.</span>
+                <span className="font-semibold text-slate-800">{apartado.titulo}</span>
+                <span className="text-xs text-slate-500">({apartado.subapartados.length} subapartados)</span>
+              </div>
+              <svg
+                className={`w-5 h-5 text-slate-400 transition-transform ${apartadoExpandido === apartado.numero ? 'rotate-180' : ''}`}
+                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            
+            {apartadoExpandido === apartado.numero && (
+              <div className="px-4 pb-4 border-t border-slate-100">
+                <div className="space-y-4 mt-4">
+                  {apartado.subapartados.map(sub => (
+                    <div key={sub.numero} className="border-l-2 border-blue-200 pl-3">
+                      <h4 className="font-semibold text-slate-800 text-sm mb-2">
+                        <span className="text-blue-600">{sub.numero}</span> {sub.titulo}
+                        {sub.categoria && (
+                          <span className={`ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                            sub.categoria === 'NORMA' ? 'bg-green-100 text-green-800' :
+                            sub.categoria === 'HOLD' ? 'bg-amber-100 text-amber-800' :
+                            'bg-blue-100 text-blue-800'
+                          }`}>
+                            {sub.categoria}
+                          </span>
+                        )}
+                      </h4>
+                      <div className="space-y-1">
+                        {sub.contenido.map((linea, i) => (
+                          <p key={i} className="text-xs text-slate-700 leading-relaxed">
+                            {linea.startsWith('[DESARROLLO PROPIO]') || linea.startsWith('[NORMA VIGENTE]') || linea.startsWith('[HOLD]') || linea.startsWith('[REPERTORIO') ? (
+                              <span className={`font-bold ${
+                                linea.includes('DESARROLLO') ? 'text-blue-600' :
+                                linea.includes('NORMA') ? 'text-green-600' :
+                                linea.includes('HOLD') ? 'text-amber-600' :
+                                'text-purple-600'
+                              }`}>{linea}</span>
+                            ) : (
+                              linea
+                            )}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-slate-50 rounded-xl border border-slate-200 p-4">
+        <h3 className="font-bold text-slate-800 text-sm mb-2">Resumen del Documento</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div className="bg-white rounded-lg p-2 border border-slate-200">
+            <div className="text-lg font-bold text-slate-800">{todosLosApartados.length}</div>
+            <div className="text-xs text-slate-500">Apartados</div>
+          </div>
+          <div className="bg-white rounded-lg p-2 border border-slate-200">
+            <div className="text-lg font-bold text-slate-800">
+              {todosLosApartados.reduce((acc, a) => acc + a.subapartados.length, 0)}
+            </div>
+            <div className="text-xs text-slate-500">Subapartados</div>
+          </div>
+          <div className="bg-white rounded-lg p-2 border border-slate-200">
+            <div className="text-lg font-bold text-green-600">
+              {todosLosApartados.reduce((acc, a) => acc + a.subapartados.filter(s => s.categoria === 'NORMA').length, 0)}
+            </div>
+            <div className="text-xs text-slate-500">Normativa</div>
+          </div>
+          <div className="bg-white rounded-lg p-2 border border-slate-200">
+            <div className="text-lg font-bold text-amber-600">
+              {todosLosApartados.reduce((acc, a) => acc + a.subapartados.filter(s => s.categoria === 'HOLD').length, 0)}
+            </div>
+            <div className="text-xs text-slate-500">Pendientes</div>
+          </div>
         </div>
       </div>
     </div>

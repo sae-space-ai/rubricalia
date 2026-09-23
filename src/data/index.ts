@@ -1,3 +1,7 @@
 export * from './types';
 export * from './units';
 export * from './collective';
+export * from './document';
+export * from './document-part2';
+export * from './document-part3';
+export * from './document-part4';
