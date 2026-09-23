@@ -91,6 +91,62 @@ export default function App() {
               🎵 Clarinete
             </button>
             <button
+              onClick={() => cambiarAsignatura('lenguaje')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'lenguaje' ? 'bg-indigo-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              📖 Lenguaje
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('armonia')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'armonia' ? 'bg-violet-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🎼 Armonía
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('analisis')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'analisis' ? 'bg-fuchsia-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🔍 Análisis
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('historia')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'historia' ? 'bg-rose-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              📚 Historia
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('literatura')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'literatura' ? 'bg-pink-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              📜 Literatura
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('coro')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'coro' ? 'bg-teal-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🎤 Coro
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('piano_complementario')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'piano_complementario' ? 'bg-cyan-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🎹 Piano Comp.
+            </button>
+            <button
               onClick={() => cambiarAsignatura('camara')}
               className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
                 asignatura === 'camara' ? 'bg-purple-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
@@ -268,8 +324,19 @@ function VistaInicioColectiva({ asignatura, onNavigate }: { asignatura: Asignatu
   const info = ASIGNATURA_INFO[asignatura];
   const cursos = getCursosDisponibles(asignatura);
   const rubricas = getRubricasByAsignatura(asignatura);
-  const colorMap: Record<string, string> = { purple: 'purple', blue: 'blue', emerald: 'emerald' };
-  const color = colorMap[info.color];
+  const colorMap: Record<string, string> = { 
+    indigo: 'indigo', 
+    violet: 'violet', 
+    fuchsia: 'fuchsia', 
+    rose: 'rose', 
+    pink: 'pink', 
+    teal: 'teal', 
+    cyan: 'cyan',
+    purple: 'purple', 
+    blue: 'blue', 
+    emerald: 'emerald' 
+  };
+  const color = colorMap[info.color] || 'slate';
 
   return (
     <div className="space-y-6">
@@ -600,8 +667,19 @@ function VistaRubricas({ asignatura, cursoFiltro, setCursoFiltro }: {
     ? todasRubricas
     : todasRubricas.filter(r => r.curso === cursoFiltro);
 
-  const colorMap: Record<string, string> = { purple: 'purple', blue: 'blue', emerald: 'emerald' };
-  const color = colorMap[info.color];
+  const colorMap: Record<string, string> = { 
+    indigo: 'indigo', 
+    violet: 'violet', 
+    fuchsia: 'fuchsia', 
+    rose: 'rose', 
+    pink: 'pink', 
+    teal: 'teal', 
+    cyan: 'cyan',
+    purple: 'purple', 
+    blue: 'blue', 
+    emerald: 'emerald' 
+  };
+  const color = colorMap[info.color] || 'slate';
 
   return (
     <div className="space-y-4">

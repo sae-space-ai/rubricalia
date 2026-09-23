@@ -3,7 +3,17 @@
 // Programación Didáctica V2.0 Auditada
 // ============================================================
 
-export type AsignaturaColectiva = 'camara' | 'banda' | 'orquesta';
+export type AsignaturaColectiva = 
+  | 'lenguaje'
+  | 'armonia'
+  | 'analisis'
+  | 'historia'
+  | 'literatura'
+  | 'coro'
+  | 'piano_complementario'
+  | 'camara'
+  | 'banda'
+  | 'orquesta';
 export type CursoColectivo = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface CriterioEvaluacion {
@@ -135,6 +145,13 @@ export const CRITERIO_COMPETENCIA_MAP: Record<string, string[]> = {
 // ============================================================
 
 export const CURSOS_VALIDOS: Record<AsignaturaColectiva, CursoColectivo[]> = {
+  lenguaje: [1, 2, 3, 4],
+  armonia: [1, 2],
+  analisis: [3, 4, 5, 6],
+  historia: [3, 4, 5, 6],
+  literatura: [1, 2, 3, 4, 5, 6],
+  coro: [1, 2, 3, 4, 5, 6],
+  piano_complementario: [1, 2],
   camara: [4, 5, 6],
   banda: [1, 2, 3, 4, 5, 6],
   orquesta: [1, 2, 3, 4, 5, 6]
@@ -145,6 +162,41 @@ export const CURSOS_VALIDOS: Record<AsignaturaColectiva, CursoColectivo[]> = {
 // ============================================================
 
 export const ASIGNATURA_INFO: Record<AsignaturaColectiva, { nombre: string; descripcion: string; color: string }> = {
+  lenguaje: {
+    nombre: 'Lenguaje Musical',
+    descripcion: 'Formación teórica en lectura, escritura, ritmo, entonación y percepción auditiva.',
+    color: 'indigo'
+  },
+  armonia: {
+    nombre: 'Armonía',
+    descripcion: 'Estudio de la construcción de acordes, progresiones armónicas y su análisis.',
+    color: 'violet'
+  },
+  analisis: {
+    nombre: 'Análisis Musical',
+    descripcion: 'Estudio de la estructura, forma y organización de las obras musicales.',
+    color: 'fuchsia'
+  },
+  historia: {
+    nombre: 'Historia de la Música',
+    descripcion: 'Estudio de la evolución histórica de la música y sus contextos culturales.',
+    color: 'rose'
+  },
+  literatura: {
+    nombre: 'Literatura del Instrumento',
+    descripcion: 'Estudio del repertorio, compositores y evolución histórica del instrumento.',
+    color: 'pink'
+  },
+  coro: {
+    nombre: 'Coro',
+    descripcion: 'Práctica vocal en conjunto, trabajando afinación, empaste y expresión coral.',
+    color: 'teal'
+  },
+  piano_complementario: {
+    nombre: 'Piano Complementario',
+    descripcion: 'Formación básica en piano como herramienta complementaria al instrumento principal.',
+    color: 'cyan'
+  },
   camara: {
     nombre: 'Música de Cámara',
     descripcion: 'Formación en pequeño grupo con énfasis en la escucha mutua, el equilibrio sonoro y la interpretación conjunta.',
@@ -558,6 +610,14 @@ export function getRubricasByAsignatura(asignatura: AsignaturaColectiva): Rubric
       return RUBRICAS_BANDA;
     case 'orquesta':
       return RUBRICAS_ORQUESTA;
+    case 'lenguaje':
+    case 'armonia':
+    case 'analisis':
+    case 'historia':
+    case 'literatura':
+    case 'coro':
+    case 'piano_complementario':
+      return []; // Rúbricas pendientes de implementar
   }
 }
 
