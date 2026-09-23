@@ -80,14 +80,22 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       {/* HEADER */}
-      <header className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 text-white shadow-xl print:shadow-none print:bg-white print:text-black sticky top-0 z-50">
+      <header className="bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 text-white shadow-xl print:shadow-none print:bg-white print:text-black sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <div>
-              <h1 className="text-base sm:text-lg font-bold tracking-tight">PROGRAMACIÓN DIDÁCTICA 2026/2027</h1>
-              <p className="text-[10px] sm:text-xs text-blue-200 print:text-gray-600">
-                Enseñanzas Profesionales de Música — Extremadura · V2.0 Auditada · Prof. Manuel Gago Fernández
-              </p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                <span className="text-2xl">🎼</span>
+              </div>
+              <div>
+                <h1 className="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
+                  Rubricalia
+                  <span className="text-[10px] bg-green-500 text-white px-2 py-0.5 rounded-full font-normal">V2.0</span>
+                </h1>
+                <p className="text-[10px] sm:text-xs text-purple-200 print:text-gray-600">
+                  Programación Didáctica de Música 2026/2027 · Extremadura · Prof. Manuel Gago Fernández
+                </p>
+              </div>
             </div>
           </div>
           {/* Selector de Asignatura */}
@@ -181,34 +189,92 @@ export default function App() {
               🎼 Orquesta
             </button>
           </div>
-          {/* Navigation */}
-          <nav className="flex gap-1 mt-2 flex-wrap print:hidden">
-            {[
-              { id: 'inicio' as Vista, label: 'Inicio' },
-              { id: 'documento' as Vista, label: 'Documento' },
-              { id: 'programaciones' as Vista, label: 'Programaciones' },
-              { id: 'rubricas-completas' as Vista, label: 'Rúbricas' },
-              ...(asignatura === 'clarinete' ? [
-                { id: 'unidades' as Vista, label: '60 UD' },
-                { id: 'matriz' as Vista, label: 'Progresión' },
-                { id: 'repertorio' as Vista, label: 'Repertorio' },
-              ] : [
-                { id: 'rubricas' as Vista, label: 'Rúbricas' },
-              ]),
-              { id: 'normativa' as Vista, label: 'Normativa' },
-              { id: 'incidencias' as Vista, label: 'Incidencias' },
-              { id: 'auditoria' as Vista, label: 'Auditoría' },
-            ].map(item => (
-              <button
-                key={item.id}
-                onClick={() => setVista(item.id)}
-                className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
-                  vista === item.id ? 'bg-white/20 text-white' : 'text-blue-200 hover:bg-white/10'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+          {/* Navigation Principal */}
+          <nav className="flex gap-1 mt-3 flex-wrap print:hidden border-t border-white/10 pt-3">
+            <button
+              onClick={() => setVista('inicio')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'inicio' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🏠 Inicio
+            </button>
+            <button
+              onClick={() => setVista('programaciones')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'programaciones' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              📚 Programaciones
+            </button>
+            <button
+              onClick={() => setVista('rubricas-completas')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'rubricas-completas' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              📊 Rúbricas
+            </button>
+            <button
+              onClick={() => setVista('documento')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'documento' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              📄 Documento
+            </button>
+            {asignatura === 'clarinete' && (
+              <>
+                <button
+                  onClick={() => setVista('unidades')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    vista === 'unidades' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  📋 60 UD
+                </button>
+                <button
+                  onClick={() => setVista('matriz')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    vista === 'matriz' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  📈 Progresión
+                </button>
+                <button
+                  onClick={() => setVista('repertorio')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    vista === 'repertorio' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  🎵 Repertorio
+                </button>
+              </>
+            )}
+            <button
+              onClick={() => setVista('normativa')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'normativa' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              ⚖️ Normativa
+            </button>
+            <button
+              onClick={() => setVista('incidencias')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'incidencias' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              ⚠️ Incidencias
+            </button>
+            <button
+              onClick={() => setVista('auditoria')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'auditoria' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              ✅ Auditoría
+            </button>
           </nav>
         </div>
       </header>
@@ -256,9 +322,43 @@ export default function App() {
       {/* Módulo de Exportación */}
       <ExportModule />
 
-      <footer className="bg-slate-100 border-t border-slate-200 py-4 text-center text-xs text-slate-500 print:hidden">
-        <p className="font-medium">V2.0 AUDITADA PARA DEPARTAMENTO</p>
-        <p>Estado documental: AUDITADA / TRAZABLE / CON HOLD EXPLÍCITOS DONDE PROCEDA</p>
+      <footer className="bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 text-white py-6 print:hidden">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-6 mb-6">
+            <div>
+              <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                <span className="text-2xl">🎼</span> Rubricalia
+              </h3>
+              <p className="text-sm text-purple-200">
+                Herramienta integral de programación didáctica para Enseñanzas Profesionales de Música
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Información</h4>
+              <ul className="text-sm text-purple-200 space-y-1">
+                <li>Curso Académico 2026/2027</li>
+                <li>Comunidad Autónoma de Extremadura</li>
+                <li>Versión V2.0 Auditada</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Autor</h4>
+              <ul className="text-sm text-purple-200 space-y-1">
+                <li>Prof. Manuel Gago Fernández</li>
+                <li>Especialista en Clarinete</li>
+                <li>Enseñanzas Profesionales de Música</li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-white/20 pt-4 text-center">
+            <p className="text-xs text-purple-200">
+              Estado documental: <span className="font-semibold text-white">AUDITADA / TRAZABLE / CON HOLD EXPLÍCITOS DONDE PROCEDA</span>
+            </p>
+            <p className="text-xs text-purple-300 mt-2">
+              © 2024 Rubricalia · Programación Didáctica de Música · Todos los derechos reservados
+            </p>
+          </div>
+        </div>
       </footer>
     </div>
   );
@@ -270,43 +370,114 @@ export default function App() {
 function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full font-bold">V2.0</span>
-          <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full font-bold">AUDITADA</span>
-          <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs rounded-full font-bold">60 UD</span>
-        </div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Clarinete — Programación Didáctica</h2>
-        <p className="text-slate-600 mb-4">Curso académico 2026/2027 — Enseñanzas Elementales y Enseñanzas Profesionales de Música — Extremadura</p>
-        
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-          <StatCard label="Unidades Didácticas" value="60" color="blue" />
-          <StatCard label="Cursos" value="10" color="indigo" />
-          <StatCard label="Normativa verificada" value={String(NORMATIVA_BASE.filter(n => n.estado === 'VERIFIED').length)} color="green" />
-          <StatCard label="HOLD pendientes" value={String(AUDITORIA_FINAL.incidenciasHold)} color="amber" />
-        </div>
-
-        <div className="bg-slate-50 rounded-lg p-4 mb-6">
-          <h3 className="font-semibold text-slate-800 text-sm mb-2">Calendario 2026/2027</h3>
-          <div className="grid sm:grid-cols-2 gap-2 text-xs text-slate-600">
-            <p>📅 Inicio actividades: <strong>{CALENDARIO.inicioActividades}</strong></p>
-            <p>📅 Final ordinario: <strong>{CALENDARIO.finalOrdinario}</strong></p>
-            <p>📅 Final 6.º EP: <strong>{CALENDARIO.finalEP6}</strong></p>
-            <p>📅 Calificaciones ordinarias: <strong>{CALENDARIO.calificacionesOrdinarias}</strong></p>
-            <p>📅 Calificaciones 6.º EP: <strong>{CALENDARIO.calificacionesEP6}</strong></p>
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl p-8 text-white">
+        <div className="flex items-start justify-between flex-wrap gap-4">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-5xl">🎼</span>
+              <div>
+                <h2 className="text-3xl font-bold">Bienvenido a Rubricalia</h2>
+                <p className="text-purple-100 text-sm mt-1">Herramienta Integral de Programación Didáctica</p>
+              </div>
+            </div>
+            <p className="text-purple-100 mb-6 max-w-2xl">
+              Plataforma completa para la gestión de programaciones didácticas de Enseñanzas Profesionales de Música en Extremadura. 
+              Accede a rúbricas, unidades didácticas, normativa y todos los recursos necesarios para tu labor docente.
+            </p>
+            <div className="flex gap-3 flex-wrap">
+              <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg text-sm font-semibold">✓ V2.0 Auditada</span>
+              <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg text-sm font-semibold">✓ 203 Rúbricas</span>
+              <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg text-sm font-semibold">✓ 60 UD</span>
+              <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg text-sm font-semibold">✓ 11 Materias</span>
+            </div>
           </div>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <NavCard title="60 Unidades Didácticas" desc="Navegar por las 60 UD con estructura completa" icon="📋" onClick={() => onNavigate('unidades')} />
-          <NavCard title="Matriz de Progresión" desc="Progresión vertical EE1→EP6" icon="📊" onClick={() => onNavigate('matriz')} />
-          <NavCard title="Repertorio" desc="Repertorio de referencia por curso" icon="🎵" onClick={() => onNavigate('repertorio')} />
         </div>
       </div>
 
+      {/* Estadísticas Principales */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard label="Unidades Didácticas" value="60" color="blue" />
+        <StatCard label="Rúbricas Totales" value="203" color="purple" />
+        <StatCard label="Materias" value="11" color="indigo" />
+        <StatCard label="Normativa Verificada" value={String(NORMATIVA_BASE.filter(n => n.estado === 'VERIFIED').length)} color="green" />
+      </div>
+
+      {/* Módulos Principales */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <NavCard 
+          title="Programaciones" 
+          desc="Accede a las 8 programaciones vigentes y verificadas" 
+          icon="📚" 
+          onClick={() => onNavigate('programaciones')} 
+        />
+        <NavCard 
+          title="Rúbricas" 
+          desc="203 rúbricas completas con 4 niveles de logro" 
+          icon="📊" 
+          onClick={() => onNavigate('rubricas-completas')} 
+        />
+        <NavCard 
+          title="60 Unidades Didácticas" 
+          desc="Navega por las 60 UD de Clarinete con estructura completa" 
+          icon="📋" 
+          onClick={() => onNavigate('unidades')} 
+        />
+        <NavCard 
+          title="Documento Completo" 
+          desc="Los 30 apartados de la programación didáctica" 
+          icon="📄" 
+          onClick={() => onNavigate('documento')} 
+        />
+        <NavCard 
+          title="Matriz de Progresión" 
+          desc="Progresión vertical EE1→EP6" 
+          icon="📈" 
+          onClick={() => onNavigate('matriz')} 
+        />
+        <NavCard 
+          title="Normativa" 
+          desc="Marco normativo estatal y autonómico" 
+          icon="⚖️" 
+          onClick={() => onNavigate('normativa')} 
+        />
+      </div>
+
+      {/* Calendario */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <h3 className="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
+          <span className="text-2xl">📅</span> Calendario Académico 2026/2027
+        </h3>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <p className="text-xs text-blue-600 font-semibold mb-1">Inicio de Actividades</p>
+            <p className="text-blue-900 font-bold">{CALENDARIO.inicioActividades}</p>
+          </div>
+          <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+            <p className="text-xs text-green-600 font-semibold mb-1">Final Ordinario</p>
+            <p className="text-green-900 font-bold">{CALENDARIO.finalOrdinario}</p>
+          </div>
+          <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+            <p className="text-xs text-purple-600 font-semibold mb-1">Final 6.º EP</p>
+            <p className="text-purple-900 font-bold">{CALENDARIO.finalEP6}</p>
+          </div>
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+            <p className="text-xs text-amber-600 font-semibold mb-1">Calificaciones Ordinarias</p>
+            <p className="text-amber-900 font-bold">{CALENDARIO.calificacionesOrdinarias}</p>
+          </div>
+          <div className="bg-rose-50 border border-rose-200 rounded-lg p-3">
+            <p className="text-xs text-rose-600 font-semibold mb-1">Calificaciones 6.º EP</p>
+            <p className="text-rose-900 font-bold">{CALENDARIO.calificacionesEP6}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Objetivos Oficiales */}
       <div className="grid lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EE [CO] — Aplicables al Clarinete</h3>
+          <h3 className="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+            <span className="text-xl">🎯</span> Objetivos Oficiales EE — Aplicables al Clarinete
+          </h3>
           <div className="space-y-2">
             {OBJETIVOS_OFICIALES_EE.filter(o => o.aplicaClarinete).map(o => (
               <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
@@ -314,12 +485,14 @@ function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
               </div>
             ))}
           </div>
-          <div className="mt-3 p-2 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600">
-            <span className="font-bold">Nota de trazabilidad:</span> EE-O6 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
+          <div className="mt-3 p-2 bg-amber-50 border border-amber-200 rounded text-[10px] text-amber-800">
+            <span className="font-bold">⚠️ Nota de trazabilidad:</span> EE-O6 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
           </div>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EP [CO] — Aplicables al Clarinete</h3>
+          <h3 className="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+            <span className="text-xl">🎯</span> Objetivos Oficiales EP — Aplicables al Clarinete
+          </h3>
           <div className="space-y-2">
             {OBJETIVOS_OFICIALES_EP.filter(o => o.aplicaClarinete).map(o => (
               <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
@@ -327,8 +500,8 @@ function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
               </div>
             ))}
           </div>
-          <div className="mt-3 p-2 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600">
-            <span className="font-bold">Nota de trazabilidad:</span> EP-O3 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
+          <div className="mt-3 p-2 bg-amber-50 border border-amber-200 rounded text-[10px] text-amber-800">
+            <span className="font-bold">⚠️ Nota de trazabilidad:</span> EP-O3 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
           </div>
         </div>
       </div>

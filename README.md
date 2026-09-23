@@ -1,15 +1,18 @@
-# Programación Didáctica de Clarinete 2026/2027
+# 🎼 Rubricalia
 
-## Aplicación Web Completa - V2.0 Auditada
+## Herramienta Integral de Programación Didáctica de Música
 
 **Prof. Manuel Gago Fernández**  
-**Enseñanzas Profesionales de Música - Extremadura**
+**Enseñanzas Profesionales de Música - Extremadura**  
+**Curso Académico 2026/2027**
 
 ---
 
 ## 📋 Descripción
 
-Aplicación web profesional que implementa la Programación Didáctica completa de Clarinete y asignaturas colectivas (Música de Cámara, Banda y Orquesta) para el curso académico 2026/2027, siguiendo estrictamente las reglas del superprompt maestro.
+**Rubricalia** es una herramienta web profesional e integral que implementa la Programación Didáctica completa para las Enseñanzas Elementales y Profesionales de Música en Extremadura, siguiendo estrictamente las reglas del superprompt maestro.
+
+### 🌐 **Disponible en: https://rubricalia.vercel.app/**
 
 ---
 
