@@ -281,9 +281,12 @@ export default function App() {
 
       {/* MAIN */}
       <main className="flex-1 max-w-7xl mx-auto px-4 py-6 w-full">
+        {/* Vista de Inicio Unificada */}
+        {vista === 'inicio' && <VistaInicioPrincipal onNavigate={setVista} />}
+        
+        {/* Vistas específicas de Clarinete */}
         {asignatura === 'clarinete' && (
           <>
-            {vista === 'inicio' && <VistaInicio onNavigate={setVista} />}
             {vista === 'unidades' && (
               <VistaUnidades
                 udFiltradas={udFiltradas}
@@ -299,18 +302,17 @@ export default function App() {
             {vista === 'repertorio' && <VistaRepertorio />}
           </>
         )}
-        {asignatura !== 'clarinete' && (
-          <>
-            {vista === 'inicio' && <VistaInicioColectiva asignatura={asignatura} onNavigate={setVista} />}
-            {vista === 'rubricas' && (
-              <VistaRubricas
-                asignatura={asignatura}
-                cursoFiltro={cursoColectivoFiltro}
-                setCursoFiltro={setCursoColectivoFiltro}
-              />
-            )}
-          </>
+        
+        {/* Vistas específicas de otras asignaturas */}
+        {asignatura !== 'clarinete' && vista === 'rubricas' && (
+          <VistaRubricas
+            asignatura={asignatura}
+            cursoFiltro={cursoColectivoFiltro}
+            setCursoFiltro={setCursoColectivoFiltro}
+          />
         )}
+        
+        {/* Módulos globales */}
         {vista === 'documento' && <VistaDocumento />}
         {vista === 'programaciones' && <ProgramacionesModule />}
         {vista === 'rubricas-completas' && <RubricasModule />}
@@ -365,9 +367,9 @@ export default function App() {
 }
 
 // ============================================================
-// VISTA INICIO — CLARINETE
+// VISTA INICIO PRINCIPAL — UNIFICADA
 // ============================================================
-function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
+function VistaInicioPrincipal({ onNavigate }: { onNavigate: (v: Vista) => void }) {
   return (
     <div className="space-y-6">
       {/* Hero Section */}
@@ -378,12 +380,12 @@ function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
               <span className="text-5xl">🎼</span>
               <div>
                 <h2 className="text-3xl font-bold">Bienvenido a Rubricalia</h2>
-                <p className="text-purple-100 text-sm mt-1">Herramienta Integral de Programación Didáctica</p>
+                <p className="text-purple-100 text-sm mt-1">Herramienta Integral de Programación Didáctica de Música</p>
               </div>
             </div>
             <p className="text-purple-100 mb-6 max-w-2xl">
-              Plataforma completa para la gestión de programaciones didácticas de Enseñanzas Profesionales de Música en Extremadura. 
-              Accede a rúbricas, unidades didácticas, normativa y todos los recursos necesarios para tu labor docente.
+              Plataforma completa para la gestión de programaciones didácticas de Enseñanzas Elementales y Profesionales de Música en Extremadura. 
+              Accede a rúbricas, programaciones, unidades didácticas, normativa y todos los recursos necesarios para tu labor docente.
             </p>
             <div className="flex gap-3 flex-wrap">
               <span className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg text-sm font-semibold">✓ V2.0 Auditada</span>
@@ -403,44 +405,153 @@ function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
         <StatCard label="Normativa Verificada" value={String(NORMATIVA_BASE.filter(n => n.estado === 'VERIFIED').length)} color="green" />
       </div>
 
-      {/* Módulos Principales */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <NavCard 
-          title="Programaciones" 
-          desc="Accede a las 8 programaciones vigentes y verificadas" 
-          icon="📚" 
-          onClick={() => onNavigate('programaciones')} 
-        />
-        <NavCard 
-          title="Rúbricas" 
-          desc="203 rúbricas completas con 4 niveles de logro" 
-          icon="📊" 
-          onClick={() => onNavigate('rubricas-completas')} 
-        />
-        <NavCard 
-          title="60 Unidades Didácticas" 
-          desc="Navega por las 60 UD de Clarinete con estructura completa" 
-          icon="📋" 
-          onClick={() => onNavigate('unidades')} 
-        />
-        <NavCard 
-          title="Documento Completo" 
-          desc="Los 30 apartados de la programación didáctica" 
-          icon="📄" 
-          onClick={() => onNavigate('documento')} 
-        />
-        <NavCard 
-          title="Matriz de Progresión" 
-          desc="Progresión vertical EE1→EP6" 
-          icon="📈" 
-          onClick={() => onNavigate('matriz')} 
-        />
-        <NavCard 
-          title="Normativa" 
-          desc="Marco normativo estatal y autonómico" 
-          icon="⚖️" 
-          onClick={() => onNavigate('normativa')} 
-        />
+      {/* ÍNDICE DE MÓDULOS PRINCIPALES */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <span className="text-2xl">📑</span> Índice de Módulos
+        </h3>
+        
+        {/* Módulos Destacados */}
+        <div className="grid md:grid-cols-2 gap-4 mb-6">
+          <button
+            onClick={() => onNavigate('programaciones')}
+            className="group bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-5 text-left hover:shadow-lg hover:border-blue-400 transition-all"
+          >
+            <div className="flex items-start justify-between mb-3">
+              <span className="text-4xl">📚</span>
+              <span className="px-2 py-1 bg-blue-600 text-white text-xs font-bold rounded-full">PRINCIPAL</span>
+            </div>
+            <h4 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-700 transition-colors">
+              Programaciones Vigentes
+            </h4>
+            <p className="text-sm text-slate-600 mb-3">
+              Accede a las 8 programaciones completas y verificadas de todas las materias
+            </p>
+            <div className="flex flex-wrap gap-2 mb-3">
+              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">8 Materias</span>
+              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">100% Verificadas</span>
+              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">Trazabilidad Completa</span>
+            </div>
+            <div className="text-xs text-slate-500 space-y-1">
+              <p>✓ Clarinete (60 UD completas)</p>
+              <p>✓ Lenguaje Musical, Armonía, Análisis, Historia</p>
+              <p>✓ Música de Cámara, Banda, Orquesta</p>
+            </div>
+            <div className="mt-3 text-blue-600 font-semibold text-sm group-hover:text-blue-800">
+              Acceder al módulo →
+            </div>
+          </button>
+
+          <button
+            onClick={() => onNavigate('rubricas-completas')}
+            className="group bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl p-5 text-left hover:shadow-lg hover:border-purple-400 transition-all"
+          >
+            <div className="flex items-start justify-between mb-3">
+              <span className="text-4xl">📊</span>
+              <span className="px-2 py-1 bg-purple-600 text-white text-xs font-bold rounded-full">PRINCIPAL</span>
+            </div>
+            <h4 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-purple-700 transition-colors">
+              Sistema de Rúbricas
+            </h4>
+            <p className="text-sm text-slate-600 mb-3">
+              203 rúbricas completas con 4 niveles de logro para todas las asignaturas
+            </p>
+            <div className="flex flex-wrap gap-2 mb-3">
+              <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded">203 Rúbricas</span>
+              <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded">4 Niveles</span>
+              <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded">12 Criterios</span>
+            </div>
+            <div className="text-xs text-slate-500 space-y-1">
+              <p>✓ 19 Rúbricas Técnicas (documento maestro)</p>
+              <p>✓ 36 Rúbricas de Música de Cámara</p>
+              <p>✓ 72 Rúbricas de Banda + 72 de Orquesta</p>
+            </div>
+            <div className="mt-3 text-purple-600 font-semibold text-sm group-hover:text-purple-800">
+              Acceder al módulo →
+            </div>
+          </button>
+        </div>
+
+        {/* Otros Módulos */}
+        <h4 className="text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wide">Otros Módulos Disponibles</h4>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <button
+            onClick={() => onNavigate('unidades')}
+            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">📋</span>
+              <h5 className="font-semibold text-slate-900">60 Unidades Didácticas</h5>
+            </div>
+            <p className="text-xs text-slate-600">Navega por las 60 UD de Clarinete con estructura completa</p>
+          </button>
+
+          <button
+            onClick={() => onNavigate('documento')}
+            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">📄</span>
+              <h5 className="font-semibold text-slate-900">Documento Completo</h5>
+            </div>
+            <p className="text-xs text-slate-600">Los 30 apartados de la programación didáctica</p>
+          </button>
+
+          <button
+            onClick={() => onNavigate('matriz')}
+            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">📈</span>
+              <h5 className="font-semibold text-slate-900">Matriz de Progresión</h5>
+            </div>
+            <p className="text-xs text-slate-600">Progresión vertical EE1→EP6</p>
+          </button>
+
+          <button
+            onClick={() => onNavigate('repertorio')}
+            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">🎵</span>
+              <h5 className="font-semibold text-slate-900">Repertorio</h5>
+            </div>
+            <p className="text-xs text-slate-600">Repertorio de referencia por curso</p>
+          </button>
+
+          <button
+            onClick={() => onNavigate('normativa')}
+            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">⚖️</span>
+              <h5 className="font-semibold text-slate-900">Normativa</h5>
+            </div>
+            <p className="text-xs text-slate-600">Marco normativo estatal y autonómico</p>
+          </button>
+
+          <button
+            onClick={() => onNavigate('incidencias')}
+            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">⚠️</span>
+              <h5 className="font-semibold text-slate-900">Incidencias</h5>
+            </div>
+            <p className="text-xs text-slate-600">Registro de incidencias y HOLD</p>
+          </button>
+
+          <button
+            onClick={() => onNavigate('auditoria')}
+            className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-left hover:bg-slate-100 hover:border-slate-300 transition-all"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">✅</span>
+              <h5 className="font-semibold text-slate-900">Auditoría</h5>
+            </div>
+            <p className="text-xs text-slate-600">Informe de auditoría final</p>
+          </button>
+        </div>
       </div>
 
       {/* Calendario */}
@@ -509,117 +620,7 @@ function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
   );
 }
 
-// ============================================================
-// VISTA INICIO — ASIGNATURAS COLECTIVAS
-// ============================================================
-function VistaInicioColectiva({ asignatura, onNavigate }: { asignatura: AsignaturaColectiva; onNavigate: (v: Vista) => void }) {
-  const info = ASIGNATURA_INFO[asignatura];
-  const cursos = getCursosDisponibles(asignatura);
-  const rubricas = getRubricasByAsignatura(asignatura);
-  const colorMap: Record<string, string> = { 
-    indigo: 'indigo', 
-    violet: 'violet', 
-    fuchsia: 'fuchsia', 
-    rose: 'rose', 
-    pink: 'pink', 
-    teal: 'teal', 
-    cyan: 'cyan',
-    purple: 'purple', 
-    blue: 'blue', 
-    emerald: 'emerald' 
-  };
-  const color = colorMap[info.color] || 'slate';
 
-  return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center gap-2 mb-3">
-          <span className={`px-2 py-0.5 bg-${color}-100 text-${color}-800 text-xs rounded-full font-bold`}>
-            {info.nombre.toUpperCase()}
-          </span>
-          <span className="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full font-bold">V2.0</span>
-          <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full font-bold">AUDITADA</span>
-        </div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">{info.nombre}</h2>
-        <p className="text-slate-600 mb-4">{info.descripcion}</p>
-        
-        <div className="grid sm:grid-cols-3 gap-3 mb-6">
-          <StatCard label="Cursos" value={String(cursos.length)} color="blue" />
-          <StatCard label="Criterios (CO)" value="12" color="indigo" />
-          <StatCard label="Competencias (CM)" value="7" color="green" />
-        </div>
-
-        <div className="bg-slate-50 rounded-lg p-4 mb-6">
-          <h3 className="font-semibold text-slate-800 text-sm mb-2">Cursos disponibles</h3>
-          <div className="flex gap-2 flex-wrap">
-            {cursos.map(c => (
-              <span key={c} className={`px-3 py-1 bg-${color}-100 text-${color}-800 rounded text-sm font-medium`}>
-                {c}.º curso
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid sm:grid-cols-2 gap-3">
-          <NavCard title="Rúbricas de Evaluación" desc="Ver rúbricas analíticas por criterio y curso" icon="📊" onClick={() => onNavigate('rubricas')} />
-          <NavCard title="Normativa" desc="Marco normativo aplicable" icon="📜" onClick={() => onNavigate('normativa')} />
-        </div>
-      </div>
-
-      {/* Criterios y Competencias */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">Criterios de Evaluación (CO-01 a CO-12)</h3>
-          <div className="space-y-1.5">
-            {CRITERIOS_EVALUACION.map(c => (
-              <div key={c.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
-                <span className="font-bold">{c.codigo}:</span> {c.nombre}
-                <span className="text-slate-500 ml-1">— {c.descripcion}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">Competencias Musicales (CM-1 a CM-7)</h3>
-          <div className="space-y-1.5">
-            {COMPETENCIAS.map(c => (
-              <div key={c.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
-                <span className="font-bold">{c.codigo}:</span> {c.nombre}
-              </div>
-            ))}
-          </div>
-          <div className="mt-4">
-            <h4 className="font-semibold text-slate-700 text-xs mb-2">Mapeo Criterios → Competencias</h4>
-            <div className="space-y-1">
-              {Object.entries(CRITERIO_COMPETENCIA_MAP).map(([crit, comps]) => (
-                <div key={crit} className="text-[10px] flex gap-1 items-center">
-                  <span className="font-mono font-bold text-slate-600">{crit}</span>
-                  <span className="text-slate-400">→</span>
-                  {comps.map(cm => (
-                    <span key={cm} className="px-1 py-0.5 bg-indigo-50 text-indigo-700 rounded">{cm}</span>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Contenido específico de materias teóricas */}
-      {(asignatura === 'lenguaje' || asignatura === 'armonia' || asignatura === 'analisis' || asignatura === 'historia') && (
-        <MateriaTeoricaContent asignatura={asignatura} />
-      )}
-
-      {/* Búsqueda con APIs para materias con compositores */}
-      {(asignatura === 'historia' || asignatura === 'analisis' || asignatura === 'camara' || asignatura === 'banda' || asignatura === 'orquesta') && (
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">🔍 Búsqueda de Compositores (APIs Musicales)</h3>
-          <ComposerSearch />
-        </div>
-      )}
-    </div>
-  );
-}
 
 // ============================================================
 // COMPONENTE DE BÚSQUEDA CON APIs
