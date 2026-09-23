@@ -156,29 +156,34 @@ function VistaInicio({ onNavigate }: { onNavigate: (v: Vista) => void }) {
       </div>
 
       {/* Objetivos y Contenidos oficiales */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EE [CO]</h3>
-          <div className="space-y-2">
-            {OBJETIVOS_OFICIALES_EE.map(o => (
-              <div key={o.codigo} className={`text-xs p-2 rounded ${o.codigo === 'EE-O6' ? 'bg-red-50 text-red-700' : 'bg-slate-50 text-slate-700'}`}>
-                <span className="font-bold">{o.codigo}:</span> {o.texto}
-              </div>
-            ))}
+        <div className="grid lg:grid-cols-2 gap-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+            <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EE [CO] — Aplicables al Clarinete</h3>
+            <div className="space-y-2">
+              {OBJETIVOS_OFICIALES_EE.filter(o => o.aplicaClarinete).map(o => (
+                <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
+                  <span className="font-bold">{o.codigo}:</span> {o.texto}
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 p-2 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600">
+              <span className="font-bold">Nota de trazabilidad:</span> EE-O6 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
+            </div>
           </div>
-        </div>
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EP [CO]</h3>
-          <div className="space-y-2">
-            {OBJETIVOS_OFICIALES_EP.map(o => (
-              <div key={o.codigo} className={`text-xs p-2 rounded ${o.codigo === 'EP-O3' ? 'bg-red-50 text-red-700' : 'bg-slate-50 text-slate-700'}`}>
-                <span className="font-bold">{o.codigo}:</span> {o.texto}
-              </div>
-            ))}
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+            <h3 className="font-bold text-slate-800 mb-3 text-sm">Objetivos Oficiales EP [CO] — Aplicables al Clarinete</h3>
+            <div className="space-y-2">
+              {OBJETIVOS_OFICIALES_EP.filter(o => o.aplicaClarinete).map(o => (
+                <div key={o.codigo} className="text-xs p-2 rounded bg-slate-50 text-slate-700">
+                  <span className="font-bold">{o.codigo}:</span> {o.texto}
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 p-2 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600">
+              <span className="font-bold">Nota de trazabilidad:</span> EP-O3 (fabricación de lengüetas dobles) existe en la normativa oficial pero NO corresponde al clarinete. Se excluye de la programación conforme a la regla de veracidad.
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </div>    </div>
   );
 }
 
@@ -567,7 +572,7 @@ function VistaIncidencias() {
                     inc.estado === 'FIXED' ? 'bg-green-100 text-green-800' :
                     inc.estado === 'VERIFIED' ? 'bg-blue-100 text-blue-800' :
                     inc.estado === 'HOLD' ? 'bg-amber-100 text-amber-800' :
-                    'bg-red-100 text-red-800'
+                    'bg-slate-100 text-slate-700'
                   }`}>{inc.estado}</span>
                 </td>
               </tr>

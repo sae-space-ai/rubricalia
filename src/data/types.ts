@@ -227,13 +227,13 @@ export const ESTRUCTURA_60_UD: UDInfo[] = [
 
 // Objetivos oficiales EE
 export const OBJETIVOS_OFICIALES_EE = [
-  { codigo: 'EE-O1', texto: 'Controlar el aire mediante respiración diafragmática y la embocadura para conseguir emisión, afinación, articulación y flexibilidad.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EE-O2', texto: 'Desarrollar reflejos de precisión necesarios para corregir afinación y calidad sonora.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EE-O3', texto: 'Conocer las características y posibilidades sonoras del instrumento, tanto individualmente como en conjunto.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EE-O4', texto: 'Desarrollar sensibilidad auditiva para controlar afinación y mejorar calidad sonora.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EE-O5', texto: 'Conseguir estabilidad sonora en toda la extensión, utilizando vibrato y matices para desarrollar color y expresión.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EE-O6', texto: 'NO CORRESPONDE AL CLARINETE (doble lengüeta).', procedencia: '[H]' as Procedencia },
-  { codigo: 'EE-O7', texto: 'Elementos relativos a lectura, memoria, interpretación y práctica musical.', procedencia: '[CO]' as Procedencia },
+  { codigo: 'EE-O1', texto: 'Controlar el aire mediante respiración diafragmática y la embocadura para conseguir emisión, afinación, articulación y flexibilidad.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EE-O2', texto: 'Desarrollar reflejos de precisión necesarios para corregir afinación y calidad sonora.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EE-O3', texto: 'Conocer las características y posibilidades sonoras del instrumento, tanto individualmente como en conjunto.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EE-O4', texto: 'Desarrollar sensibilidad auditiva para controlar afinación y mejorar calidad sonora.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EE-O5', texto: 'Conseguir estabilidad sonora en toda la extensión, utilizando vibrato y matices para desarrollar color y expresión.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EE-O6', texto: 'Objetivo relativo a fabricación y rebajado de lengüetas para instrumentos de doble lengüeta.', procedencia: '[CO]' as Procedencia, aplicaClarinete: false, nota: 'NO CORRESPONDE AL CLARINETE. Excluido de la programación por no ser aplicable a instrumentos de lengüeta simple.' },
+  { codigo: 'EE-O7', texto: 'Elementos relativos a lectura, memoria, interpretación y práctica musical.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
 ];
 
 // Contenidos oficiales EE
@@ -265,14 +265,14 @@ export const CRITERIOS_OFICIALES_EE = [
 
 // Objetivos oficiales EP
 export const OBJETIVOS_OFICIALES_EP = [
-  { codigo: 'EP-O1', texto: 'Desarrollar sensibilidad auditiva para perfeccionar progresivamente la calidad sonora.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EP-O2', texto: 'Conocer e interpretar repertorio representativo de diferentes épocas y estilos adecuado al nivel.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EP-O3', texto: 'NO CORRESPONDE AL CLARINETE (doble lengüeta).', procedencia: '[H]' as Procedencia },
-  { codigo: 'EP-O4', texto: 'Desarrollar autonomía progresiva para resolver problemas de digitación, articulación, fraseo, etc.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EP-O5', texto: 'Conocer convenciones interpretativas de diferentes períodos, especialmente escritura rítmica y ornamentación.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EP-O6', texto: 'Desarrollar herramientas y competencias para la memoria.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EP-O7', texto: 'Desarrollar lectura a vista e improvisación mediante conocimientos musicales aplicados al instrumento.', procedencia: '[CO]' as Procedencia },
-  { codigo: 'EP-O8', texto: 'Desarrollar práctica de conjunto, formaciones camerísticas y papel solista con orquesta en obras de dificultad media.', procedencia: '[CO]' as Procedencia },
+  { codigo: 'EP-O1', texto: 'Desarrollar sensibilidad auditiva para perfeccionar progresivamente la calidad sonora.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EP-O2', texto: 'Conocer e interpretar repertorio representativo de diferentes épocas y estilos adecuado al nivel.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EP-O3', texto: 'Fabricación de lengüetas para instrumentos de doble lengüeta.', procedencia: '[CO]' as Procedencia, aplicaClarinete: false, nota: 'NO CORRESPONDE AL CLARINETE. Excluido de la programación por no ser aplicable a instrumentos de lengüeta simple.' },
+  { codigo: 'EP-O4', texto: 'Desarrollar autonomía progresiva para resolver problemas de digitación, articulación, fraseo, etc.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EP-O5', texto: 'Conocer convenciones interpretativas de diferentes períodos, especialmente escritura rítmica y ornamentación.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EP-O6', texto: 'Desarrollar herramientas y competencias para la memoria.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EP-O7', texto: 'Desarrollar lectura a vista e improvisación mediante conocimientos musicales aplicados al instrumento.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
+  { codigo: 'EP-O8', texto: 'Desarrollar práctica de conjunto, formaciones camerísticas y papel solista con orquesta en obras de dificultad media.', procedencia: '[CO]' as Procedencia, aplicaClarinete: true },
 ];
 
 // Contenidos oficiales EP
