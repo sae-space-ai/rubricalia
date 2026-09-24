@@ -17,7 +17,8 @@ export default function ProgramacionesModule() {
     { id: 'instrumento', nombre: 'Instrumento', icono: '🎵' },
     { id: 'colectiva', nombre: 'Colectivas', icono: '🎻' },
     { id: 'teorica', nombre: 'Teóricas', icono: '📖' },
-    { id: 'complementaria', nombre: 'Complementarias', icono: '🎤' }
+    { id: 'complementaria', nombre: 'Complementarias', icono: '🎤' },
+    { id: 'optativa', nombre: 'Optativas', icono: '✨' }
   ];
 
   const etapas = [

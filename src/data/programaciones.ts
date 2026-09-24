@@ -5,12 +5,23 @@
 
 import { OBJETIVOS_OFICIALES_EE, OBJETIVOS_OFICIALES_EP, CONTENIDOS_OFICIALES_EE, CONTENIDOS_OFICIALES_EP, CRITERIOS_OFICIALES_EE, CRITERIOS_OFICIALES_EP, ESTRUCTURA_60_UD } from './types';
 import { CRITERIOS_EVALUACION, COMPETENCIAS, ASIGNATURA_INFO, CURSOS_VALIDOS } from './collective';
-import { LENGUAJE_MUSICAL, ARMONIA, ANALISIS, HISTORIA } from './materias';
+import { 
+  LENGUAJE_MUSICAL, 
+  ARMONIA, 
+  ANALISIS, 
+  HISTORIA,
+  LITERATURA_INSTRUMENTO,
+  CORO,
+  PIANO_COMPLEMENTARIO,
+  MUSICA_CONJUNTO,
+  FUNDAMENTOS_COMPOSICION,
+  MUSICA_TECNOLOGIAS
+} from './materias';
 
 export interface ProgramacionMateria {
   id: string;
   nombre: string;
-  tipo: 'instrumento' | 'colectiva' | 'teorica' | 'complementaria';
+  tipo: 'instrumento' | 'colectiva' | 'teorica' | 'complementaria' | 'optativa';
   etapa: 'EE' | 'EP' | 'ambas';
   cursos: string[];
   icono: string;
@@ -368,6 +379,138 @@ export const PROGRAMACIONES_VIGENTES: ProgramacionMateria[] = [
     ),
     metodologia: HISTORIA.metodologia,
     evaluacion: HISTORIA.evaluacion,
+    normativa: [
+      'Decreto 111/2007 (currículo EE.PP. Extremadura)'
+    ],
+    estado: 'VERIFIED'
+  },
+
+  // LITERATURA DEL INSTRUMENTO
+  {
+    id: 'literatura',
+    nombre: 'Literatura del Instrumento',
+    tipo: 'teorica',
+    etapa: 'EP',
+    cursos: ['EP1', 'EP2', 'EP3', 'EP4', 'EP5', 'EP6'],
+    icono: '📜',
+    color: 'pink',
+    descripcion: 'Estudio del repertorio, compositores y evolución histórica del instrumento',
+    objetivos: LITERATURA_INSTRUMENTO.objetivos,
+    contenidos: Object.fromEntries(
+      Object.entries(LITERATURA_INSTRUMENTO.contenidosPorCurso).map(([curso, data]) => [curso, data.contenidos])
+    ),
+    metodologia: LITERATURA_INSTRUMENTO.metodologia,
+    evaluacion: LITERATURA_INSTRUMENTO.evaluacion,
+    normativa: [
+      'Decreto 111/2007 (currículo EE.PP. Extremadura)'
+    ],
+    estado: 'VERIFIED'
+  },
+
+  // CORO
+  {
+    id: 'coro',
+    nombre: 'Coro',
+    tipo: 'complementaria',
+    etapa: 'EP',
+    cursos: ['EP1', 'EP2', 'EP3', 'EP4', 'EP5', 'EP6'],
+    icono: '🎤',
+    color: 'teal',
+    descripcion: 'Práctica vocal en conjunto, trabajando afinación, empaste y expresión coral',
+    objetivos: CORO.objetivos,
+    contenidos: Object.fromEntries(
+      Object.entries(CORO.contenidosPorCurso).map(([curso, data]) => [curso, data.contenidos])
+    ),
+    metodologia: CORO.metodologia,
+    evaluacion: CORO.evaluacion,
+    normativa: [
+      'Decreto 111/2007 (currículo EE.PP. Extremadura)'
+    ],
+    estado: 'VERIFIED'
+  },
+
+  // PIANO COMPLEMENTARIO
+  {
+    id: 'piano_complementario',
+    nombre: 'Piano Complementario',
+    tipo: 'complementaria',
+    etapa: 'EP',
+    cursos: ['EP1', 'EP2'],
+    icono: '🎹',
+    color: 'cyan',
+    descripcion: 'Formación básica en piano como herramienta complementaria al instrumento principal',
+    objetivos: PIANO_COMPLEMENTARIO.objetivos,
+    contenidos: Object.fromEntries(
+      Object.entries(PIANO_COMPLEMENTARIO.contenidosPorCurso).map(([curso, data]) => [curso, data.contenidos])
+    ),
+    metodologia: PIANO_COMPLEMENTARIO.metodologia,
+    evaluacion: PIANO_COMPLEMENTARIO.evaluacion,
+    normativa: [
+      'Decreto 111/2007 (currículo EE.PP. Extremadura)'
+    ],
+    estado: 'VERIFIED'
+  },
+
+  // MÚSICA DE CONJUNTO
+  {
+    id: 'musica_conjunto',
+    nombre: 'Música de Conjunto',
+    tipo: 'colectiva',
+    etapa: 'EP',
+    cursos: ['EP1', 'EP2', 'EP3', 'EP4', 'EP5', 'EP6'],
+    icono: '🎶',
+    color: 'orange',
+    descripcion: 'Práctica instrumental en formaciones diversas, desarrollando la escucha y la interpretación colectiva',
+    objetivos: MUSICA_CONJUNTO.objetivos,
+    contenidos: Object.fromEntries(
+      Object.entries(MUSICA_CONJUNTO.contenidosPorCurso).map(([curso, data]) => [curso, data.contenidos])
+    ),
+    metodologia: MUSICA_CONJUNTO.metodologia,
+    evaluacion: MUSICA_CONJUNTO.evaluacion,
+    normativa: [
+      'Decreto 111/2007 (currículo EE.PP. Extremadura)'
+    ],
+    estado: 'VERIFIED'
+  },
+
+  // FUNDAMENTOS DE COMPOSICIÓN
+  {
+    id: 'composicion',
+    nombre: 'Fundamentos de Composición',
+    tipo: 'optativa',
+    etapa: 'EP',
+    cursos: ['EP3', 'EP4', 'EP5', 'EP6'],
+    icono: '✍️',
+    color: 'yellow',
+    descripcion: 'Introducción a la creación musical, desarrollando la capacidad compositiva y la creatividad',
+    objetivos: FUNDAMENTOS_COMPOSICION.objetivos,
+    contenidos: Object.fromEntries(
+      Object.entries(FUNDAMENTOS_COMPOSICION.contenidosPorCurso).map(([curso, data]) => [curso, data.contenidos])
+    ),
+    metodologia: FUNDAMENTOS_COMPOSICION.metodologia,
+    evaluacion: FUNDAMENTOS_COMPOSICION.evaluacion,
+    normativa: [
+      'Decreto 111/2007 (currículo EE.PP. Extremadura)'
+    ],
+    estado: 'VERIFIED'
+  },
+
+  // MÚSICA Y NUEVAS TECNOLOGÍAS
+  {
+    id: 'musica_tecnologias',
+    nombre: 'Música y Nuevas Tecnologías',
+    tipo: 'optativa',
+    etapa: 'EP',
+    cursos: ['EP3', 'EP4', 'EP5', 'EP6'],
+    icono: '💻',
+    color: 'lime',
+    descripcion: 'Introducción a las tecnologías aplicadas a la música: producción, edición, grabación y creación musical digital',
+    objetivos: MUSICA_TECNOLOGIAS.objetivos,
+    contenidos: Object.fromEntries(
+      Object.entries(MUSICA_TECNOLOGIAS.contenidosPorCurso).map(([curso, data]) => [curso, data.contenidos])
+    ),
+    metodologia: MUSICA_TECNOLOGIAS.metodologia,
+    evaluacion: MUSICA_TECNOLOGIAS.evaluacion,
     normativa: [
       'Decreto 111/2007 (currículo EE.PP. Extremadura)'
     ],
