@@ -37,7 +37,7 @@ import ProgramacionesModule from './components/ProgramacionesModule';
 import RubricasModule from './components/RubricasModule';
 
 type Asignatura = 'clarinete' | AsignaturaColectiva;
-type Vista = 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas' | 'rubricas-completas' | 'documento' | 'programaciones';
+type Vista = 'landing' | 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas' | 'rubricas-completas' | 'documento' | 'programaciones';
 
 const CURSOS_CLARINETE: Curso[] = ['EE1', 'EE2', 'EE3', 'EE4', 'EP1', 'EP2', 'EP3', 'EP4', 'EP5', 'EP6'];
 const NOMBRE_CURSO_CLARINETE: Record<Curso, string> = {
@@ -53,7 +53,7 @@ const ETAPA_FASE: Record<Curso, string> = {
 
 export default function App() {
   const [asignatura, setAsignatura] = useState<Asignatura>('clarinete');
-  const [vista, setVista] = useState<Vista>('inicio');
+  const [vista, setVista] = useState<Vista>('landing');
   const [udSeleccionada, setUdSeleccionada] = useState<string>('');
   const [cursoFiltro, setCursoFiltro] = useState<string>('TODOS');
   const [cursoColectivoFiltro, setCursoColectivoFiltro] = useState<CursoColectivo | 'TODOS'>('TODOS');
@@ -192,6 +192,14 @@ export default function App() {
           {/* Navigation Principal */}
           <nav className="flex gap-1 mt-3 flex-wrap print:hidden border-t border-white/10 pt-3">
             <button
+              onClick={() => setVista('landing')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                vista === 'landing' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🏛️ Landing
+            </button>
+            <button
               onClick={() => setVista('inicio')}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 vista === 'inicio' ? 'bg-white text-purple-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
@@ -281,6 +289,9 @@ export default function App() {
 
       {/* MAIN */}
       <main className="flex-1 max-w-7xl mx-auto px-4 py-6 w-full">
+        {/* Landing Page - MVP */}
+        {vista === 'landing' && <LandingPage onNavigate={setVista} />}
+        
         {/* Vista de Inicio Unificada */}
         {vista === 'inicio' && <VistaInicioPrincipal onNavigate={setVista} />}
         
@@ -362,6 +373,528 @@ export default function App() {
           </div>
         </div>
       </footer>
+    </div>
+  );
+}
+
+// ============================================================
+// LANDING PAGE - MVP CON INFORMACIÓN DE IMPLEMENTACIÓN
+// ============================================================
+function LandingPage({ onNavigate }: { onNavigate: (v: Vista) => void }) {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Hero Section con MVP Badge */}
+      <div className="relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 py-16 sm:py-24">
+          <div className="text-center">
+            {/* MVP Badge */}
+            <div className="inline-flex items-center gap-2 bg-amber-100 border-2 border-amber-300 text-amber-800 px-6 py-2 rounded-full text-sm font-bold mb-8 shadow-lg">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              VERSIÓN MVP - MINIMUM VIABLE PRODUCT
+            </div>
+
+            {/* Logo y Título */}
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-3xl shadow-2xl mb-6">
+              <span className="text-6xl">🎼</span>
+            </div>
+            <h1 className="text-5xl sm:text-6xl font-bold text-slate-900 mb-4">
+              Rubricalia
+            </h1>
+            <p className="text-xl sm:text-2xl text-slate-600 mb-2">
+              Programación Didáctica de Música 2026/2027
+            </p>
+            <p className="text-lg text-slate-500 mb-8">
+              Enseñanzas Profesionales de Música — Extremadura
+            </p>
+
+            {/* Descripción */}
+            <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8 mb-8 border border-slate-200">
+              <p className="text-lg text-slate-700 leading-relaxed mb-6">
+                Herramienta integral para la gestión de programaciones didácticas, rúbricas de evaluación, 
+                unidades didácticas y normativa para las Enseñanzas Elementales y Profesionales de Música.
+              </p>
+              
+              {/* Aviso MVP */}
+              <div className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg text-left mb-6">
+                <div className="flex items-start gap-3">
+                  <svg className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <h3 className="font-bold text-amber-900 mb-1">Versión MVP - Producto Mínimo Viable</h3>
+                    <p className="text-sm text-amber-800">
+                      Esta herramienta se encuentra en fase de desarrollo activo como Producto Mínimo Viable (MVP). 
+                      Las funcionalidades presentes son operativas y utilizables, pero pueden experimentar mejoras 
+                      y ampliaciones en futuras versiones. Agradecemos sus comentarios y sugerencias para continuar 
+                      mejorando la herramienta.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Botones de Acción */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => onNavigate('inicio')}
+                  className="inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
+                >
+                  <span>🚀</span>
+                  Acceder a la Herramienta
+                </button>
+                <button
+                  onClick={() => onNavigate('programaciones')}
+                  className="inline-flex items-center justify-center gap-2 bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200"
+                >
+                  <span>📚</span>
+                  Ver Programaciones
+                </button>
+              </div>
+            </div>
+
+            {/* Estadísticas Rápidas */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12">
+              <div className="bg-white rounded-xl shadow-md p-4 border border-slate-200">
+                <div className="text-3xl font-bold text-indigo-600 mb-1">203</div>
+                <div className="text-sm text-slate-600">Rúbricas</div>
+              </div>
+              <div className="bg-white rounded-xl shadow-md p-4 border border-slate-200">
+                <div className="text-3xl font-bold text-purple-600 mb-1">60</div>
+                <div className="text-sm text-slate-600">Unidades Didácticas</div>
+              </div>
+              <div className="bg-white rounded-xl shadow-md p-4 border border-slate-200">
+                <div className="text-3xl font-bold text-pink-600 mb-1">11</div>
+                <div className="text-sm text-slate-600">Materias</div>
+              </div>
+              <div className="bg-white rounded-xl shadow-md p-4 border border-slate-200">
+                <div className="text-3xl font-bold text-green-600 mb-1">30</div>
+                <div className="text-sm text-slate-600">Apartados</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Información de Implementación */}
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-slate-200">
+          <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+            <span className="text-4xl">⚙️</span>
+            Información de Implementación
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            {/* Stack Tecnológico */}
+            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
+              <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span className="text-2xl">💻</span>
+                Stack Tecnológico
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">React 19</span>
+                    <span className="text-slate-600 text-sm ml-2">- Biblioteca UI</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">TypeScript 5</span>
+                    <span className="text-slate-600 text-sm ml-2">- Tipado estático</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">Vite 6</span>
+                    <span className="text-slate-600 text-sm ml-2">- Build tool</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">Tailwind CSS 4</span>
+                    <span className="text-slate-600 text-sm ml-2">- Framework CSS</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Librerías de Exportación */}
+            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
+              <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span className="text-2xl">📦</span>
+                Librerías de Exportación
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">SheetJS (xlsx)</span>
+                    <span className="text-slate-600 text-sm ml-2">- Excel</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">jsPDF + autoTable</span>
+                    <span className="text-slate-600 text-sm ml-2">- PDF</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">docx</span>
+                    <span className="text-slate-600 text-sm ml-2">- Word</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">file-saver</span>
+                    <span className="text-slate-600 text-sm ml-2">- Descargas</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* APIs Integradas */}
+            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
+              <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span className="text-2xl">🌐</span>
+                APIs Integradas
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">MusicBrainz API</span>
+                    <span className="text-slate-600 text-sm ml-2">- Base de datos musical</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">Wikipedia API</span>
+                    <span className="text-slate-600 text-sm ml-2">- Enciclopedia libre</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Despliegue */}
+            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
+              <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span className="text-2xl">🚀</span>
+                Despliegue
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">Plataforma</span>
+                    <span className="text-slate-600 text-sm ml-2">- Vercel</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">Dominio</span>
+                    <span className="text-slate-600 text-sm ml-2">- rubricalia.vercel.app</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">Versión</span>
+                    <span className="text-slate-600 text-sm ml-2">- V2.0 MVP</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                  <div>
+                    <span className="font-semibold text-slate-900">Estado</span>
+                    <span className="text-amber-600 text-sm ml-2 font-semibold">- MVP Activo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Características Implementadas */}
+          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-200">
+            <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <span className="text-2xl">✨</span>
+              Características Implementadas en MVP
+            </h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm text-slate-700">203 rúbricas completas</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm text-slate-700">60 unidades didácticas</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm text-slate-700">11 materias completas</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm text-slate-700">30 apartados documentales</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm text-slate-700">Exportación en 5 formatos</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm text-slate-700">APIs musicales integradas</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm text-slate-700">Trazabilidad normativa</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm text-slate-700">Sistema de auditoría</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm text-slate-700">Interfaz responsive</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Aviso Legal de IA Europea */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+          <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+            <span className="text-4xl">⚖️</span>
+            Aviso Legal - Inteligencia Artificial
+          </h2>
+
+          {/* Imagen de Conformidad IA Europea */}
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <img 
+                src="https://image.qwenlm.ai/generated-images/34ff6b80-fcec-4c1a-8cab-2e7a6534951d/_result.png" 
+                alt="EU AI Act Compliant Badge" 
+                className="w-48 h-48 rounded-full shadow-2xl border-4 border-blue-200"
+              />
+              {/* Banderas UE */}
+              <div className="absolute -top-2 -right-2 w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-lg border-3 border-white">
+                <span className="text-3xl">🇪🇺</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Contenido del Aviso Legal */}
+          <div className="space-y-4 text-slate-700">
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+              <h3 className="font-bold text-blue-900 mb-2">Conformidad con el EU AI Act</h3>
+              <p className="text-sm text-blue-800">
+                Esta herramienta ha sido desarrollada cumpliendo con los principios establecidos en el 
+                <strong> Reglamento (UE) 2024/1689 del Parlamento Europeo y del Consejo </strong> 
+                (Ley de Inteligencia Artificial de la Unión Europea), que establece el marco normativo 
+                para el desarrollo y uso de sistemas de IA en la UE.
+              </p>
+            </div>
+
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+              <h3 className="font-bold text-green-900 mb-2">Principios Éticos Aplicados</h3>
+              <ul className="text-sm text-green-800 space-y-2">
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span><strong>Transparencia:</strong> La herramienta identifica claramente cuándo se utiliza IA y proporciona información sobre su funcionamiento.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span><strong>Supervisión humana:</strong> Todos los contenidos generados por IA son revisados y validados por profesionales de la educación musical.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span><strong>Privacidad:</strong> La herramienta no recopila datos personales ni utiliza información de los usuarios para entrenamiento de modelos.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span><strong>Responsabilidad:</strong> El contenido educativo es responsabilidad del profesor usuario, quien debe validar y adaptar los materiales a su contexto.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r-lg">
+              <h3 className="font-bold text-purple-900 mb-2">Uso de IA en esta Herramienta</h3>
+              <p className="text-sm text-purple-800 mb-3">
+                Rubricalia utiliza sistemas de Inteligencia Artificial para:
+              </p>
+              <ul className="text-sm text-purple-800 space-y-1 ml-4">
+                <li>• Asistir en la generación inicial de contenidos educativos</li>
+                <li>• Facilitar la búsqueda de información musical (APIs de MusicBrainz y Wikipedia)</li>
+                <li>• Ayudar en la estructuración y organización de materiales</li>
+                <li>• Proporcionar sugerencias de mejora y coherencia curricular</li>
+              </ul>
+              <p className="text-sm text-purple-800 mt-3">
+                <strong>Importante:</strong> Todo el contenido generado por IA ha sido revisado, validado y 
+                adaptado por el Prof. Manuel Gago Fernández, especialista en Clarinete y experto en enseñanza 
+                musical, garantizando su adecuación al currículo oficial de Extremadura.
+              </p>
+            </div>
+
+            <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+              <h3 className="font-bold text-amber-900 mb-2">Limitaciones y Responsabilidades</h3>
+              <ul className="text-sm text-amber-800 space-y-2">
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  <span>Los materiales generados son orientativos y deben ser adaptados por el profesorado a las necesidades específicas de cada centro y alumnado.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  <span>La herramienta no sustituye el criterio profesional del docente ni la validación institucional por parte del departamento o centro educativo.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  <span>El usuario es responsable de verificar la vigencia y aplicabilidad de la normativa citada en su contexto específico.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-slate-100 border-l-4 border-slate-400 p-4 rounded-r-lg">
+              <h3 className="font-bold text-slate-900 mb-2">Marco Normativo de Referencia</h3>
+              <ul className="text-sm text-slate-700 space-y-1">
+                <li>• <strong>Reglamento (UE) 2024/1689</strong> - Ley de Inteligencia Artificial de la UE</li>
+                <li>• <strong>RGPD (UE) 2016/679</strong> - Reglamento General de Protección de Datos</li>
+                <li>• <strong>LOE 2/2006</strong> - Ley Orgánica de Educación (modificada por LOMLOE)</li>
+                <li>• <strong>Decreto 111/2007</strong> - Currículo de Enseñanzas Profesionales de Música (Extremadura)</li>
+                <li>• <strong>Decreto 54/2022</strong> - Currículo de Enseñanzas Elementales de Música (Extremadura)</li>
+              </ul>
+            </div>
+
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 p-6 rounded-xl">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-3xl">🇪🇺</span>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-blue-900 mb-2">Compromiso con la Ética en IA</h3>
+                  <p className="text-sm text-blue-800">
+                    Rubricalia se compromete con el uso responsable y ético de la Inteligencia Artificial 
+                    en el ámbito educativo, cumpliendo con todos los requisitos establecidos por la Unión 
+                    Europea para sistemas de IA de bajo riesgo. La herramienta está diseñada para asistir 
+                    y potenciar el trabajo del profesorado, nunca para sustituirlo.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Información del Autor */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+          <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+            <span className="text-4xl">👨‍🏫</span>
+            Autor y Desarrollo
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-200">
+              <h3 className="text-xl font-bold text-slate-900 mb-4">Prof. Manuel Gago Fernández</h3>
+              <div className="space-y-2 text-sm text-slate-700">
+                <p><strong>Especialidad:</strong> Clarinete</p>
+                <p><strong>Nivel:</strong> Enseñanzas Profesionales de Música</p>
+                <p><strong>Comunidad Autónoma:</strong> Extremadura</p>
+                <p><strong>Curso Académico:</strong> 2026/2027</p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+              <h3 className="text-xl font-bold text-slate-900 mb-4">Estado del Proyecto</h3>
+              <div className="space-y-2 text-sm text-slate-700">
+                <p><strong>Versión:</strong> V2.0 MVP</p>
+                <p><strong>Estado:</strong> <span className="text-amber-600 font-semibold">Producto Mínimo Viable</span></p>
+                <p><strong>Auditoría:</strong> ✅ Completada</p>
+                <p><strong>Trazabilidad:</strong> ✅ Verificada</p>
+                <p><strong>Normativa:</strong> ✅ Cumplida</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 bg-slate-50 rounded-xl p-6 border border-slate-200">
+            <h3 className="text-lg font-bold text-slate-900 mb-3">Contacto y Feedback</h3>
+            <p className="text-sm text-slate-700 mb-4">
+              Al estar en fase MVP, agradecemos enormemente sus comentarios, sugerencias y reportes de errores 
+              para continuar mejorando la herramienta. Su feedback es esencial para el desarrollo de futuras versiones.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <span className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-lg text-sm font-medium">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+                Feedback y Sugerencias
+              </span>
+              <span className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-lg text-sm font-medium">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                Reportar Errores
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Botón Final de Acceso */}
+        <div className="text-center mt-8">
+          <button
+            onClick={() => onNavigate('inicio')}
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-12 py-5 rounded-2xl font-bold text-xl hover:from-indigo-700 hover:to-purple-700 transition-all shadow-2xl shadow-indigo-300"
+          >
+            <span className="text-3xl">🚀</span>
+            Comenzar a Usar Rubricalia
+          </button>
+          <p className="text-sm text-slate-600 mt-4">
+            Acceda a todas las funcionalidades de la herramienta
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
