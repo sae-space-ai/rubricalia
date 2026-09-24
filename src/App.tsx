@@ -36,7 +36,7 @@ import ExportModule from './components/ExportModule';
 import ProgramacionesModule from './components/ProgramacionesModule';
 import RubricasModule from './components/RubricasModule';
 
-type Asignatura = 'clarinete' | AsignaturaColectiva;
+type Asignatura = 'clarinete' | AsignaturaColectiva | 'literatura' | 'coro' | 'piano_complementario' | 'musica_conjunto' | 'composicion' | 'musica_tecnologias';
 type Vista = 'landing' | 'inicio' | 'unidades' | 'detalle' | 'matriz' | 'incidencias' | 'normativa' | 'repertorio' | 'auditoria' | 'rubricas' | 'rubricas-completas' | 'documento' | 'programaciones';
 
 const CURSOS_CLARINETE: Curso[] = ['EE1', 'EE2', 'EE3', 'EE4', 'EP1', 'EP2', 'EP3', 'EP4', 'EP5', 'EP6'];
@@ -187,6 +187,30 @@ export default function App() {
               }`}
             >
               🎼 Orquesta
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('musica_conjunto')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'musica_conjunto' ? 'bg-orange-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              🎶 Conjunto
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('composicion')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'composicion' ? 'bg-yellow-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              ✍️ Composición
+            </button>
+            <button
+              onClick={() => cambiarAsignatura('musica_tecnologias')}
+              className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${
+                asignatura === 'musica_tecnologias' ? 'bg-lime-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              💻 Tecnologías
             </button>
           </div>
           {/* Navigation Principal */}

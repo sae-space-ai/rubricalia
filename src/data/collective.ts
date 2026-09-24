@@ -13,7 +13,10 @@ export type AsignaturaColectiva =
   | 'piano_complementario'
   | 'camara'
   | 'banda'
-  | 'orquesta';
+  | 'orquesta'
+  | 'musica_conjunto'
+  | 'composicion'
+  | 'musica_tecnologias';
 export type CursoColectivo = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface CriterioEvaluacion {
@@ -154,7 +157,10 @@ export const CURSOS_VALIDOS: Record<AsignaturaColectiva, CursoColectivo[]> = {
   piano_complementario: [1, 2],
   camara: [4, 5, 6],
   banda: [1, 2, 3, 4, 5, 6],
-  orquesta: [1, 2, 3, 4, 5, 6]
+  orquesta: [1, 2, 3, 4, 5, 6],
+  musica_conjunto: [1, 2, 3, 4, 5, 6],
+  composicion: [3, 4, 5, 6],
+  musica_tecnologias: [3, 4, 5, 6]
 };
 
 // ============================================================
@@ -211,6 +217,21 @@ export const ASIGNATURA_INFO: Record<AsignaturaColectiva, { nombre: string; desc
     nombre: 'Orquesta',
     descripcion: 'Formación en la gran formación sinfónica, con énfasis en la lectura de partitura, la dirección y la integración en el tutti.',
     color: 'emerald'
+  },
+  musica_conjunto: {
+    nombre: 'Música de Conjunto',
+    descripcion: 'Práctica instrumental en formaciones diversas, desarrollando la escucha, el ajuste y la interpretación colectiva.',
+    color: 'orange'
+  },
+  composicion: {
+    nombre: 'Fundamentos de Composición',
+    descripcion: 'Introducción a la creación musical, desarrollando la capacidad compositiva y la creatividad.',
+    color: 'yellow'
+  },
+  musica_tecnologias: {
+    nombre: 'Música y Nuevas Tecnologías',
+    descripcion: 'Introducción a las tecnologías aplicadas a la música: producción, edición, grabación y creación musical digital.',
+    color: 'lime'
   }
 };
 
@@ -617,6 +638,9 @@ export function getRubricasByAsignatura(asignatura: AsignaturaColectiva): Rubric
     case 'literatura':
     case 'coro':
     case 'piano_complementario':
+    case 'musica_conjunto':
+    case 'composicion':
+    case 'musica_tecnologias':
       return []; // Rúbricas pendientes de implementar
   }
 }
