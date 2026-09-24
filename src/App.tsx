@@ -90,7 +90,7 @@ export default function App() {
               <div>
                 <h1 className="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
                   Rubricalia
-                  <span className="text-[10px] bg-green-500 text-white px-2 py-0.5 rounded-full font-normal">V2.0</span>
+                  <span className="text-[10px] bg-green-500 text-white px-2 py-0.5 rounded-full font-normal">V3.1</span>
                 </h1>
                 <p className="text-[10px] sm:text-xs text-purple-200 print:text-gray-600">
                   Programación Didáctica de Música 2026/2027 · Extremadura · Prof. Manuel Gago Fernández
@@ -313,7 +313,7 @@ export default function App() {
 
       {/* MAIN */}
       <main className="flex-1 max-w-7xl mx-auto px-4 py-6 w-full">
-        {/* Landing Page - MVP */}
+        {/* Landing Page - V3.1 */}
         {vista === 'landing' && <LandingPage onNavigate={setVista} />}
         
         {/* Vista de Inicio Unificada */}
@@ -375,7 +375,7 @@ export default function App() {
               <ul className="text-sm text-purple-200 space-y-1">
                 <li>Curso Académico 2026/2027</li>
                 <li>Comunidad Autónoma de Extremadura</li>
-                <li>Versión V2.0 Auditada</li>
+                <li>Versión V3.1 Completa</li>
               </ul>
             </div>
             <div>
@@ -402,21 +402,21 @@ export default function App() {
 }
 
 // ============================================================
-// LANDING PAGE - MVP CON INFORMACIÓN DE IMPLEMENTACIÓN
+// LANDING PAGE - V3.1 CON INFORMACIÓN DE IMPLEMENTACIÓN
 // ============================================================
 function LandingPage({ onNavigate }: { onNavigate: (v: Vista) => void }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Hero Section con MVP Badge */}
+      {/* Hero Section con V3.1 Badge */}
       <div className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 py-16 sm:py-24">
           <div className="text-center">
-            {/* MVP Badge */}
-            <div className="inline-flex items-center gap-2 bg-amber-100 border-2 border-amber-300 text-amber-800 px-6 py-2 rounded-full text-sm font-bold mb-8 shadow-lg">
+            {/* V3.1 Badge */}
+            <div className="inline-flex items-center gap-2 bg-green-100 border-2 border-green-400 text-green-800 px-6 py-2 rounded-full text-sm font-bold mb-8 shadow-lg">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              VERSIÓN MVP - MINIMUM VIABLE PRODUCT
+              VERSIÓN 3.1 - IMPLEMENTACIÓN COMPLETA
             </div>
 
             {/* Logo y Título */}
@@ -440,19 +440,19 @@ function LandingPage({ onNavigate }: { onNavigate: (v: Vista) => void }) {
                 unidades didácticas y normativa para las Enseñanzas Elementales y Profesionales de Música.
               </p>
               
-              {/* Aviso MVP */}
-              <div className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg text-left mb-6">
+              {/* Aviso V3.1 */}
+              <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded-r-lg text-left mb-6">
                 <div className="flex items-start gap-3">
-                  <svg className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  <svg className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   <div>
-                    <h3 className="font-bold text-amber-900 mb-1">Versión MVP - Producto Mínimo Viable</h3>
-                    <p className="text-sm text-amber-800">
-                      Esta herramienta se encuentra en fase de desarrollo activo como Producto Mínimo Viable (MVP). 
-                      Las funcionalidades presentes son operativas y utilizables, pero pueden experimentar mejoras 
-                      y ampliaciones en futuras versiones. Agradecemos sus comentarios y sugerencias para continuar 
-                      mejorando la herramienta.
+                    <h3 className="font-bold text-green-900 mb-1">Versión 3.1 - Implementación Completa</h3>
+                    <p className="text-sm text-green-800">
+                      Esta herramienta ha alcanzado la versión 3.1 con implementación completa del currículo oficial 
+                      de Enseñanzas Profesionales de Música en Extremadura. Incluye 14 materias completamente desarrolladas, 
+                      203 rúbricas operativas, 60 unidades didácticas y cobertura del 100% del currículo según los 
+                      Decretos 110/2007, 111/2007 y 54/2022.
                     </p>
                   </div>
                 </div>
@@ -488,7 +488,7 @@ function LandingPage({ onNavigate }: { onNavigate: (v: Vista) => void }) {
                 <div className="text-sm text-slate-600">Unidades Didácticas</div>
               </div>
               <div className="bg-white rounded-xl shadow-md p-4 border border-slate-200">
-                <div className="text-3xl font-bold text-pink-600 mb-1">11</div>
+                <div className="text-3xl font-bold text-pink-600 mb-1">14</div>
                 <div className="text-sm text-slate-600">Materias</div>
               </div>
               <div className="bg-white rounded-xl shadow-md p-4 border border-slate-200">
@@ -634,14 +634,14 @@ function LandingPage({ onNavigate }: { onNavigate: (v: Vista) => void }) {
                   <span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
                   <div>
                     <span className="font-semibold text-slate-900">Versión</span>
-                    <span className="text-slate-600 text-sm ml-2">- V2.0 MVP</span>
+                    <span className="text-slate-600 text-sm ml-2">- V3.1 Completa</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                   <div>
                     <span className="font-semibold text-slate-900">Estado</span>
-                    <span className="text-amber-600 text-sm ml-2 font-semibold">- MVP Activo</span>
+                    <span className="text-green-600 text-sm ml-2 font-semibold">- V3.1 Completa</span>
                   </div>
                 </div>
               </div>
@@ -652,7 +652,7 @@ function LandingPage({ onNavigate }: { onNavigate: (v: Vista) => void }) {
           <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-200">
             <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
               <span className="text-2xl">✨</span>
-              Características Implementadas en MVP
+              Características Implementadas en V3.1
             </h3>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="flex items-start gap-2">
@@ -671,7 +671,7 @@ function LandingPage({ onNavigate }: { onNavigate: (v: Vista) => void }) {
                 <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span className="text-sm text-slate-700">11 materias completas</span>
+                <span className="text-sm text-slate-700">14 materias completas</span>
               </div>
               <div className="flex items-start gap-2">
                 <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -872,7 +872,7 @@ function LandingPage({ onNavigate }: { onNavigate: (v: Vista) => void }) {
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
               <h3 className="text-xl font-bold text-slate-900 mb-4">Estado del Proyecto</h3>
               <div className="space-y-2 text-sm text-slate-700">
-                <p><strong>Versión:</strong> V2.0 MVP</p>
+                <p><strong>Versión:</strong> V3.1 Completa</p>
                 <p><strong>Estado:</strong> <span className="text-amber-600 font-semibold">Producto Mínimo Viable</span></p>
                 <p><strong>Auditoría:</strong> ✅ Completada</p>
                 <p><strong>Trazabilidad:</strong> ✅ Verificada</p>
@@ -884,7 +884,7 @@ function LandingPage({ onNavigate }: { onNavigate: (v: Vista) => void }) {
           <div className="mt-6 bg-slate-50 rounded-xl p-6 border border-slate-200">
             <h3 className="text-lg font-bold text-slate-900 mb-3">Contacto y Feedback</h3>
             <p className="text-sm text-slate-700 mb-4">
-              Al estar en fase MVP, agradecemos enormemente sus comentarios, sugerencias y reportes de errores 
+              En esta versión V3.1, agradecemos enormemente sus comentarios, sugerencias y reportes de errores
               para continuar mejorando la herramienta. Su feedback es esencial para el desarrollo de futuras versiones.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -1685,7 +1685,7 @@ function VistaAuditoria() {
     <div className="space-y-4">
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <h2 className="text-xl font-bold text-slate-900 mb-1">Informe de Auditoría Final</h2>
-        <p className="text-sm text-slate-600 mb-4">Control automático de la programación V2.0</p>
+        <p className="text-sm text-slate-600 mb-4">Control automático de la programación V3.1</p>
         
         <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
           <p className="text-lg font-bold text-green-800">{a.estadoGlobal}</p>

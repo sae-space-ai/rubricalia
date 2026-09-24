@@ -1,18 +1,25 @@
-# 🎼 Rubricalia
+# 🎼 Rubricalia V3.1
 
-## Herramienta Integral de Programación Didáctica de Música
+## Herramienta Integral de Programación Didáctica de Música - Implementación Completa
 
 **Prof. Manuel Gago Fernández**  
 **Enseñanzas Profesionales de Música - Extremadura**  
-**Curso Académico 2026/2027**
+**Curso Académico 2026/2027**  
+**Versión: V3.1 - Implementación Completa del Currículo Oficial**
 
 ---
 
 ## 📋 Descripción
 
-**Rubricalia** es una herramienta web profesional e integral que implementa la Programación Didáctica completa para las Enseñanzas Elementales y Profesionales de Música en Extremadura, siguiendo estrictamente las reglas del superprompt maestro.
+**Rubricalia V3.1** es una herramienta web profesional e integral que implementa la Programación Didáctica completa para las Enseñanzas Elementales y Profesionales de Música en Extremadura, alcanzando el **100% de cobertura del currículo oficial** según los Decretos 110/2007, 111/2007 y 54/2022.
 
 ### 🌐 **Disponible en: https://rubricalia.vercel.app/**
+
+### 🎉 **Novedades V3.1**
+- ✅ **14 materias** completamente implementadas (100% del currículo)
+- ✅ **6 nuevas materias** añadidas: Literatura del Instrumento, Coro, Piano Complementario, Música de Conjunto, Fundamentos de Composición, Música y Nuevas Tecnologías
+- ✅ **Cobertura completa** del currículo oficial de Enseñanzas Profesionales
+- ✅ **Versión visible** en toda la interfaz
 
 ---
 
